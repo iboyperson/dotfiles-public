@@ -23,12 +23,12 @@ blacklist=()
 
 for role in "${(@f)"$(<$PUBLIC_PATH/whitelist)"}"
 do
-    includes=("--include=/roles/$role" $includes)
+    whitelist=("--include=/roles/$role" $whitelist)
 done
 
 for role in "${(@f)"$(<$PUBLIC_PATH/blacklist)"}"
 do
-    excludes=("--exclude=/roles/$role" $excludes)
+    blacklist=("--exclude=/roles/$role" $blacklist)
 done
 
 rsync -a \
