@@ -1,0 +1,12 @@
+- name: "Enable avahi with systemd"
+  become: yes
+  systemd:
+    name: "avahi-daemon.service"
+    enabled: yes
+
+- name: "Disable systemd-resolved mdns"
+  copy:
+    src: "{{ role_path }}/files/mdns.conf"
+    dest: "/etc/systemd/resolved.conf.d/"
+  become: yes
+

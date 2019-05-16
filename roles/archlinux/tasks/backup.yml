@@ -1,0 +1,54 @@
+- name: Get checksum for local makepkg.conf
+  stat: path="{{ role_path }}/files/makepkg.conf"
+  register: makepkg_conf_local
+
+- name: Check if makepkg.conf already exists
+  stat: path="/etc/makepkg.conf"
+  register: makepkg_conf
+
+- name: Check if makepkg.conf.bak already exists
+  stat: path="/etc/makepkg.conf.bak"
+  register: makepkg_conf_bak
+
+- name: Backup makepkg.conf if it exists
+  command: mv /etc/makepkg.conf /etc/makepkg.conf.bak
+  args:
+    creates: /etc/makepkg.conf.bak
+  when: makepkg_conf.stat.exists and not makepkg_conf_bak.stat.exists and makepkg_conf.stat.checksum != makepkg_conf_local.stat.checksum
+
+- name: Get checksum for local pacman.conf
+  stat: path="{{ role_path }}/files/pacman.conf"
+  register: pacman_conf_local
+
+- name: Check if pacman.conf already exists
+  stat: path="/etc/pacman.conf"
+  register: pacman_conf
+
+- name: Check if pacman.conf.bak already exists
+  stat: path="/etc/pacman.conf.bak"
+  register: pacman_conf_bak
+
+- name: Backup pacman.conf if it exists
+  command: mv /etc/pacman.conf /etc/pacman.conf.bak
+  args:
+    creates: /etc/pacman.conf.bak
+  when: pacman_conf.stat.exists and not pacman_conf_bak.stat.exists and pacman_conf.stat.checksum != pacman_conf_local.stat.checksum
+
+# INFO: Disable hooks backup for now as the directory does not appear to exist on a new arch system
+# - name: Get checksum for local pacman.d/hooks
+#   stat: path="{{ role_path }}/files/hooks"
+#   register: pacman_hooks_local
+
+# - name: Check if pacman.d/hooks already exists
+#   stat: path="/etc/pacman.d/hooks"
+#   register: pacman_hooks
+
+# - name: Check if pacman.d/hooks.bak already exists
+#   stat: path="/etc/pacman.d/hooks.bak"
+#   register: pacman_hooks_bak
+
+# - name: Backup pacman.d/hooks if it exists
+#   command: mv /etc/pacman.d/hooks /etc/pacman.d/hooks.bak
+#   args:
+#     creates: /etc/pacman.d/hooks.bak
+#   when: pacman_hooks.stat.exists and not pacman_hooks_bak.stat.exists and pacman_hooks.stat.checksum != pacman_hooks_local.stat.checksum

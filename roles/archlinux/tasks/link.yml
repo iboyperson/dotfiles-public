@@ -1,0 +1,21 @@
+- name: Sync makepkg.conf file
+  synchronize:
+    src: "{{ role_path }}/files/makepkg.conf"
+    dest: "/etc/makepkg.conf"
+    archive: no
+    checksum: yes
+
+- name: Sync pacman.conf file
+  synchronize:
+    src: "{{ role_path }}/files/pacman.conf"
+    dest: "/etc/pacman.conf"
+    archive: no
+    checksum: yes
+
+- name: Sync pacman.d/hooks/ file
+  synchronize:
+    src: "{{ role_path }}/files/hooks"
+    dest: "/etc/pacman.d/hooks"
+    archive: no
+    checksum: yes
+    recursive: yes

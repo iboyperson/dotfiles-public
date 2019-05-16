@@ -1,0 +1,10 @@
+- import_tasks: archlinux.yml
+  when: ansible_os_family == "Archlinux"
+
+- name: Sync nsswitch.conf file
+  synchronize:
+    src: "{{ role_path }}/files/nsswitch.conf"
+    dest: "/etc/nsswitch.conf"
+    archive: no
+    checksum: yes
+  become: yes

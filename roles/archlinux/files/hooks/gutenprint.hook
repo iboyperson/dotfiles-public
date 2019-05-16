@@ -1,0 +1,11 @@
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = gutenprint
+Target = foomatic-db-gutenprint-ppds
+
+[Action]
+Description = Updating gutenprint PPDs...
+When = PostTransaction
+Exec = /bin/sh -c "cups-genppdupdate"
+

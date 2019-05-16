@@ -1,0 +1,9 @@
+- name: "Ensure Avahi and related applications are installed"
+  become: yes
+  pacman:
+    name:
+      - avahi
+      - nss-mdns
+    state: present
+
+- import_tasks: systemd.yml

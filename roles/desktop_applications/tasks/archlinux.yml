@@ -1,0 +1,17 @@
+- name: "Ensure desktop applications are installed"
+  become: yes
+  pacman:
+    name:
+      - libreoffice-fresh
+      - speedcrunch
+    state: present
+
+- name: Ensure AUR desktop applications are installed
+  become: yes
+  become_user: "{{ username }}"
+  aur:
+    name:
+      - etcher-bin
+      - google-chrome
+      - spotify
+    skip_installed: true
