@@ -1,0 +1,18 @@
+- import_tasks: archlinux.yml
+  when: ansible_os_family == "Archlinux"
+
+- name: "Perform tasks for [{{ username }}]"
+  block:
+    - name: "Make .config/Code/User directory"
+      file:
+        path: "{{ user_home }}/.config/Code/User"
+        state: directory
+
+    - import_tasks: link.yml
+
+    - name: "Install VSCode extensions"
+      vscode_extensions:
+        name: "{{ item }}"
+      with_items: "{{ lookup('file', 'files/extensions.txt').splitlines() }}"
+  become: yes
+  become_user: "{{ username }}"

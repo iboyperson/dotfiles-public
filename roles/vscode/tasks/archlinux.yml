@@ -1,0 +1,6 @@
+- name: Ensure VSCode is installed
+  become: yes
+  become_user: "{{ username }}"
+  aur:
+    name: visual-studio-code-bin
+    skip_installed: true

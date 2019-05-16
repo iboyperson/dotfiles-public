@@ -1,0 +1,88 @@
+// Place your key bindings in this file to overwrite the defaults
+[
+    // For 'fabiospampinato.vscode-todo-plus' extension
+    // Shows Todo sidebar
+    {
+        "key": "ctrl+n n",
+        "command": "fileutils.newFileAtRoot"
+    },
+    {
+        "key": "ctrl+n f",
+        "command": "fileutils.newFolderAtRoot"
+    },
+
+    // Navigation keybindings
+    { "key": "alt+]",
+      "command": "workbench.action.nextEditor"
+    },
+    { "key": "alt+[",
+      "command": "workbench.action.previousEditor"
+    },
+    {
+      "key": "alt+]",
+      "command": "workbench.action.nextSideBarView",
+      "when": "sideBarFocus"
+    },
+    {
+      "key": "alt+[",
+      "command": "workbench.action.previousSideBarView",
+      "when": "sideBarFocus"
+    },
+    {
+      "key": "alt+]",
+      "command": "workbench.action.nextPanelView",
+      "when": "panelFocus"
+    },
+    {
+      "key": "alt+[",
+      "command": "workbench.action.previousPanelView",
+      "when": "panelFocus"
+    },
+    {
+      "key": "alt+shift+]",
+      "command": "workbench.action.focusPanel"
+    },
+    {
+      "key": "alt+shift+[",
+      "command": "workbench.action.focusSideBar"
+    },
+    {
+      "key": "alt+shift+]",
+      "command": "workbench.action.focusActiveEditorGroup",
+      "when": "sideBarFocus"
+    },
+    {
+      "key": "alt+shift+[",
+      "command": "workbench.action.focusPanel",
+      "when": "sideBarFocus"
+    },
+    {
+      "key": "alt+shift+]",
+      "command": "workbench.action.focusSideBar",
+      "when": "panelFocus"
+    },
+    {
+      "key": "alt+shift+[",
+      "command": "workbench.action.focusActiveEditorGroup",
+      "when": "panelFocus"
+    },
+
+    // Markdown keybindings
+    {
+        "key": "ctrl+k",
+        "command": "editor.action.insertSnippet",
+        "when": "editorTextFocus && editorLangId == markdown",
+        "args": {
+          "langId": "markdown",
+          "name": "Insert link"
+        }
+    },
+    {
+      "key": "ctrl+shift+q",
+      "command": "todo-tree-view.focus"
+    },
+    {
+      "key": "ctrl+shift+g p",
+      "command": "workbench.view.extension.github-pull-requests"
+    }
+]
