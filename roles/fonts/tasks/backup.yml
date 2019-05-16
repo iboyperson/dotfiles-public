@@ -1,0 +1,17 @@
+- name: "Check if '~/.config/fontconfig' already exists"
+  stat: path="{{ user_home }}/.config/fontconfig"
+  register: fontconfig
+
+- name: "Check if '~/.config/fontconfig.bak' already exists"
+  stat: path="{{ user_home }}/.config/fontconfig.bak"
+  register: fontconfig_bak
+
+- name: "Check if '~/.config/fontconfig/fonts.conf' already exists"
+  stat: path="{{ user_home }}/.config/fontconfig/fonts.conf"
+  register: fontconfig_file
+
+- name: "Backup '~/.config/fontsconfig' if it exists"
+  command: mv "{{ user_home }}/.config/fontconfig" "{{ user_home }}/.config/fontconfig.bak"
+  args:
+    creates: "{{ user_home }}/.config/fontconfig.bak"
+  when: fontconfig.stat.exists and not fontconfig_file.stat.islnk and not fontconfig_bak.stat.exists

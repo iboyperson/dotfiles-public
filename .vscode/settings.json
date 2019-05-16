@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "**/*.yml": "ansible",
+        "**/fonts.conf": "xml",
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/site.retry": true,
+    },
+
+}

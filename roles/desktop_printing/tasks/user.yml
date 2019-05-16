@@ -1,0 +1,6 @@
+- name: "Add the user [{{ username }}] if it does not already exist"
+  become: yes
+  user:
+    name: "{{ username }}"
+    groups: sys
+    append: yes

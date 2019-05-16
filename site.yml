@@ -1,0 +1,32 @@
+- name: Set up base local development environment
+  hosts: local
+  roles:
+    # Initital bootstrap of the system
+    - { role: user,  tags: ["user", "bootstrap"] }
+    - { role: os,    tags: ["os", "bootstrap"] }
+    - { role: fonts, tags: ["fonts", "bootstrap"] }
+    - { role: zsh,   tags: ["zsh", "bootstrap"] }
+
+    # Setup mDNS resolution
+    - { role: avahi, tags: ["avahi", "desktop_printing"] }
+
+    # Setup of languages and development tools
+    - { role: git,    tags: ["git", "devel"] }
+    - { role: dotnet, tags: ["dotnet", "devel"] }
+    - { role: go,     tags: ["go", "devel"],     when: go }
+    - { role: java,   tags: ["java", "devel"],   when: java }
+    - { role: python, tags: ["python", "devel"], when: python }
+    - { role: ruby,   tags: ["ruby", "devel"],   when: ruby }
+    - { role: rust,   tags: ["rust", "devel"],   when: rust }
+
+    # Setup tools for a better CLI
+    - { role: enhanced_cli, tags: ["enhanced_cli", "devel"] }
+
+    # Setup of Desktop Enviorment and applications
+    - { role: desktop_base,         tags: ["desktop_base", "desktop"],                      when: desktop }
+    - { role: desktop_printing,     tags: ["desktop_printing", "desktop"],                  when: desktop }
+    - { role: desktop_kde,          tags: ["desktop_kde", "desktop"],                       when: desktop and (desktop_type == "kde") }
+    - { role: desktop_applications, tags: ["desktop_applications", "desktop"],              when: desktop }
+    - { role: ulauncher,            tags: ["ulauncher", "desktop_applications", "desktop"], when: desktop }
+    - { role: deadbeef,             tags: ["deadbeef", "desktop_applications", "desktop"],  when: desktop }
+    - { role: vscode,               tags: ["vscode", "desktop_applications", "desktop"],    when: desktop }

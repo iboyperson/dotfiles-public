@@ -1,0 +1,17 @@
+# Specify wether to install desktop (and desktop applications) or not
+desktop: yes
+desktop_type: kde
+
+# Specify languages to install
+go: yes
+java: yes
+python: yes
+rust: yes
+ruby: yes
+
+# Username for created user
+username: iboyperson
+full_name: Thomas Quillan
+
+# Users home directory path
+user_home: "/home/{{username}}"

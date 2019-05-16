@@ -1,0 +1,44 @@
+- name: "Ensure cups and related packages are installed"
+  become: yes
+  pacman:
+    name:
+      - antiword
+      - cloudprint-cups
+      - cups
+      - cups-filters
+      - cups-pdf
+      - cups-pk-helper
+      - docx2txt
+      - foomatic-db
+      - foomatic-db-engine
+      - foomatic-db-gutenprint-ppds
+      - foomatic-db-nonfree
+      - foomatic-db-nonfree-ppds
+      - foomatic-db-ppds
+      - ghostscript
+      - gsfonts
+      - gutenprint
+      - hplip
+      - imagescan
+      - libusb
+      - libwmf
+      - python-pysmbc
+      - rpcbind
+      - samba
+      - sane
+      - splix
+      - system-config-printer
+    state: present
+
+- name: Ensure cups related AUR packages are installed
+  become: yes
+  become_user: "{{ username }}"
+  aur:
+    name:
+      - epson-inkjet-printer-escpr
+      - epson-inkjet-printer-escpr2
+      - hplip-plugin
+      - hpoj
+    skip_installed: true
+
+- import_tasks: systemd.yml

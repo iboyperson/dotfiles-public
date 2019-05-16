@@ -1,0 +1,24 @@
+- name: "Ensure font packages are installed"
+  become: yes
+  pacman:
+    name:
+      - fontconfig
+      - ttf-fira-code
+      - ttf-liberation
+    state: present
+
+- name: "Install ttf-win10 fonts"
+  command: "pacman -U --noconfirm --needed {{ role_path }}/files/archlinux/{{ item }}"
+  with_items:
+    - "ttf-ms-win10-10.0.17763.348-1-any.pkg.tar.xz"
+    - "ttf-ms-win10-japanese-10.0.17763.348-1-any.pkg.tar.xz"
+    - "ttf-ms-win10-korean-10.0.17763.348-1-any.pkg.tar.xz"
+    - "ttf-ms-win10-other-10.0.17763.348-1-any.pkg.tar.xz"
+    - "ttf-ms-win10-sea-10.0.17763.348-1-any.pkg.tar.xz"
+    - "ttf-ms-win10-thai-10.0.17763.348-1-any.pkg.tar.xz"
+    - "ttf-ms-win10-zh_cn-10.0.17763.348-1-any.pkg.tar.xz"
+    - "ttf-ms-win10-zh_tw-10.0.17763.348-1-any.pkg.tar.xz"
+  register: win10_result
+  changed_when: "'skipping' not in win10_result.stderr"
+  become: yes
+  become_method: sudo

@@ -1,0 +1,8 @@
+- name: "Enable cups service with systemd"
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+  with_items:
+      - "org.cups.cupsd.service"
+      - "cups-browsed.service"
+  become: yes

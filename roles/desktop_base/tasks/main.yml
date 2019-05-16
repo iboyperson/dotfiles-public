@@ -1,0 +1,37 @@
+- name: "Check for AMD GPU"
+  shell: "if [[ $(lspci | grep AMD) ]]; then; return 0; else; return 1; fi"
+  register: amd_gpu_check
+  failed_when: ( amd_gpu_check.rc not in [ 0, 1 ] )
+  changed_when: False
+
+- name: "Check for Intel GPU"
+  shell: "if [[ $(lspci | grep Intel) ]]; then; return 0; else; return 1; fi"
+  register: intel_gpu_check
+  failed_when: ( intel_gpu_check.rc not in [ 0, 1 ] )
+  changed_when: False
+
+- name: "Check for Nvidia GPU"
+  shell: "if [[ $(lspci | grep NVIDIA) ]]; then; return 0; else; return 1; fi"
+  register: nvidia_gpu_check
+  failed_when: ( nvidia_gpu_check.rc not in [ 0, 1 ] )
+  changed_when: False
+
+- import_tasks: archlinux.yml
+  when: ansible_os_family == "Archlinux"
+
+- name: "Perform tasks for [{{ username }}]"
+  block:
+    - name: "Generate XDG user directories"
+      command: "xdg-user-dirs-update"
+
+    - name: "Make Wallpapers Dir"
+      file:
+        path: "{{ user_home }}/Pictures/Wallpapers"
+        state: directory
+
+    - name: "Copy wallpapaer to wallpapers dir"
+      copy:
+        src: "{{ role_path }}/files/penrose-triangle.jpg"
+        dest: "{{ user_home }}/Pictures/Wallpapers/penrose-triangle.jpg"
+  become: yes
+  become_user: "{{ username }}"

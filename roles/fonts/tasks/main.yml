@@ -1,0 +1,21 @@
+- import_tasks: archlinux.yml
+  when: ansible_os_family == "Archlinux"
+
+- name: "Install Google Sans font"
+  copy:
+    src: "{{ role_path }}/files/GoogleSans"
+    dest: "/usr/share/fonts/GoogleSans"
+  become: yes
+
+- name: "Perform tasks for [{{ username }}]"
+  block:
+    - import_tasks: backup.yml
+
+    - name: "Make fontconfig/conf.d directory"
+      file:
+        path: "{{ user_home }}/.config/fontconfig/conf.d"
+        state: directory
+
+    - import_tasks: link.yml
+  become: yes
+  become_user: "{{ username }}"
