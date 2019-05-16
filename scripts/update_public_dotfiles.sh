@@ -18,8 +18,8 @@ echo "==> Syncronizing files..."
 # TODO: Sanitize deadbeef so it can be unexcluded
 # `--exclude` uses `/` because `/` refers to the top level of the source and not root
 
-includes=()
-excludes=()
+whitelist=()
+blacklist=()
 
 for role in "${(@f)"$(<$PUBLIC_PATH/whitelist)"}"
 do
@@ -36,8 +36,8 @@ rsync -a \
     --exclude ".git" \
     --exclude "/README.md" \
     --exclude "/group_vars/local/vault.yml" \
-    "${excludes[@]}" \
-    "${includes[@]}" \
+    "${blacklist[@]}" \
+    "${whitelist[@]}" \
     --exclude "/roles/*" \
     "$PROJECT_PATH/" "$REPO_PATH"
 
