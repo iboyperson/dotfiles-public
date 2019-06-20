@@ -41,4 +41,4 @@
   become: yes
 
 - import_tasks: aur.yml
-  when: enable_aur
+  when: enable_aur|bool

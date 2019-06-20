@@ -11,16 +11,16 @@ codezombiech.gitignore
 CoenraadS.bracket-pair-colorizer
 DavidAnson.vscode-markdownlint
 DavidWang.ini-for-vscode
-donjayamanne.githistory
 eamodio.gitlens
 EditorConfig.EditorConfig
 fallenwood.vimL
 formulahendry.code-runner
 GitHub.vscode-pull-request-github
 Gruntfuggly.todo-tree
+hars.CppSnippets
 James-Yu.latex-workshop
 mattn.Lisp
-ms-azure-devops.azure-pipelines
+mhutchie.git-graph
 ms-python.python
 ms-vscode.cpptools
 ms-vscode.csharp
@@ -35,6 +35,7 @@ redhat.vscode-yaml
 richie5um2.vscode-sort-json
 rust-lang.rust
 samuelcolvin.jinjahtml
+serayuzgur.crates
 sleistner.vscode-fileutils
 streetsidesoftware.code-spell-checker
 Tyriar.sort-lines

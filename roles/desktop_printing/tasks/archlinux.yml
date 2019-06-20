@@ -35,7 +35,7 @@
   become_user: "{{ username }}"
   aur:
     name:
-      - epson-inkjet-printer-escpr
+      # - epson-inkjet-printer-escpr
       - epson-inkjet-printer-escpr2
       - hplip-plugin
       - hpoj
