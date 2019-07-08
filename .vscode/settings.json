@@ -2,6 +2,7 @@
     "files.associations": {
         "**/*.yml": "ansible",
         "**/fonts.conf": "xml",
+        "**/.ansible-lint": "yaml",
     },
     "files.exclude": {
         "**/.git": true,

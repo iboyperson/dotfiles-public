@@ -25,7 +25,7 @@
 
     - import_tasks: backup.yml
 
-    - import_tasks: link.yml
+    - import_tasks: files.yml
 
     - name: "Perform system upgrade"
       pacman:

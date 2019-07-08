@@ -8,7 +8,7 @@
         path: "{{ user_home }}/.config/Code/User"
         state: directory
 
-    - import_tasks: link.yml
+    - import_tasks: files.yml
 
     - name: "Install VSCode extensions"
       vscode_extensions:

@@ -16,6 +16,24 @@
         path: "{{ user_home }}/.config/fontconfig/conf.d"
         state: directory
 
-    - import_tasks: link.yml
+    - import_tasks: files.yml
+
+    - name: Disable embedded bitmap for all fonts
+      file:
+        src: "/etc/fonts/conf.avail/70-no-bitmaps.conf"
+        dest: "{{ user_home }}/.config/fontconfig/conf.d/70-no-bitmaps.conf"
+        state: link
+
+    - name: Enable sub-pixel RGB rendering
+      file:
+        src: "/etc/fonts/conf.avail/10-sub-pixel-rgb.conf"
+        dest: "{{ user_home }}/.config/fontconfig/conf.d/10-sub-pixel-rgb.conf"
+        state: link
+
+    - name: Enable LCD filter
+      file:
+        src: "/etc/fonts/conf.avail/11-lcdfilter-default.conf"
+        dest: "{{ user_home }}/.config/fontconfig/conf.d/11-lcdfilter-default.conf"
+        state: link
   become: yes
   become_user: "{{ username }}"

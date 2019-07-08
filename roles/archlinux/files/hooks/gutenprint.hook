@@ -7,5 +7,5 @@ Target = foomatic-db-gutenprint-ppds
 [Action]
 Description = Updating gutenprint PPDs...
 When = PostTransaction
-Exec = /bin/sh -c "cups-genppdupdate"
+Exec = /usr/bin/cups-genppdupdate
 

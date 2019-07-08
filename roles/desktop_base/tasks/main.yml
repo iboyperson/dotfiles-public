@@ -16,13 +16,25 @@
   failed_when: ( nvidia_gpu_check.rc not in [ 0, 1 ] )
   changed_when: False
 
+- name: "Check for Bluetooth"
+  shell: "dmesg | grep -i blue"
+  register: bluetooth_check
+  failed_when: ( bluetooth_check.rc not in [ 0, 1 ] )
+  changed_when: False
+
 - import_tasks: archlinux.yml
   when: ansible_os_family == "Archlinux"
+
+- import_role:
+    name: bluetooth
+  when: bluetooth_check|bool
 
 - name: "Perform tasks for [{{ username }}]"
   block:
     - name: "Generate XDG user directories"
       command: "xdg-user-dirs-update"
+      async: 1
+      poll: 0
 
     - name: "Make Wallpapers Dir"
       file:

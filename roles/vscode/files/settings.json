@@ -1,4 +1,5 @@
 {
+    
     "files.associations": {
         "*.el": "lisp"
     },
@@ -31,14 +32,19 @@
         "pub",
         "python",
         "restructuredtext",
+        "ruby",
         "rust",
         "scss",
         "shellscript",
+        "swift",
+        "tex",
         "text",
         "toml",
         "typescript",
         "typescriptreact",
-        "yaml",
+        "viml",
+        "xml",
+        "yaml"
     ],
     "cSpell.language": "en",
     "code-runner.enableAppInsights": false,
@@ -70,6 +76,10 @@
     "files.eol": "\n",
     "breadcrumbs.enabled": true,
     "go.autocompleteUnimportedPackages": true,
+    "go.lintTool":"golangci-lint",
+    "go.lintFlags": [
+        "--fast"
+    ],
     "[python]": {
         "editor.codeActionsOnSave": {
             "source.organizeImports": true
@@ -83,6 +93,10 @@
         "TODO": {},
         "FIXME": {}
     },
+    "todo-tree.tags": [
+        "TODO",
+        "FIXME"
+    ],
     "java.home": "/usr/lib/jvm/default",
     "python.linting.flake8Enabled": true,
     "python.linting.pylintEnabled": false,
@@ -92,12 +106,17 @@
     "todo-tree.flat": true,
     "todo-tree.grouped": true,
     "java.configuration.checkProjectSettingsExclusions": false,
-    "todo-tree.tags": [
-        "TODO",
-        "FIXME"
-    ],
     "workbench.activityBar.visible": false,
-    "workbench.iconTheme": "vscode-icons",
     "explorer.confirmDelete": false,
-    "window.menuBarVisibility": "visible"
+    "window.menuBarVisibility": "visible",
+    "code-runner.clearPreviousOutput": true,
+	"code-runner.executorMap": {
+        "c": "mkdir -p $workspaceRoot/build && clang $fileName -o $workspaceRoot/build/$fileNameWithoutExt && $workspaceRoot/build/$fileNameWithoutExt",
+        "cpp": "mkdir -p $workspaceRoot/build && clang++ $fileName -o $workspaceRoot/build/$fileNameWithoutExt && $workspaceRoot/build/$fileNameWithoutExt",
+        "objective-c": "mkdir -p $workspaceRoot/build && gcc -framework Cocoa $fileName -o $workspaceRoot/build/$fileNameWithoutExt && $workspaceRoot/build/$fileNameWithoutExt",
+		"rust": "cd $dir && cargo run $fileName",
+    },
+    "workbench.iconTheme": "vscode-icons",
+    "git.autofetch": true,
+    "explorer.confirmDragAndDrop": false
 }

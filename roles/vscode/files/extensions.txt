@@ -19,6 +19,7 @@ GitHub.vscode-pull-request-github
 Gruntfuggly.todo-tree
 hars.CppSnippets
 James-Yu.latex-workshop
+KevinRose.vsc-python-indent
 mattn.Lisp
 mhutchie.git-graph
 ms-python.python
@@ -26,7 +27,6 @@ ms-vscode.cpptools
 ms-vscode.csharp
 ms-vscode.Go
 naco-siren.gradle-language
-npxms.hide-gitignored
 patbenatar.advanced-new-file
 piotrpalarz.vscode-gitignore-generator
 redhat.java
@@ -35,10 +35,14 @@ redhat.vscode-yaml
 richie5um2.vscode-sort-json
 rust-lang.rust
 samuelcolvin.jinjahtml
+seanwu.vscode-qt-for-python
 serayuzgur.crates
 sleistner.vscode-fileutils
 streetsidesoftware.code-spell-checker
+twxs.cmake
 Tyriar.sort-lines
+vadimcn.vscode-lldb
+vector-of-bool.cmake-tools
 VisualStudioExptTeam.vscodeintellicode
 vsciot-vscode.vscode-arduino
 vscjava.vscode-java-debug
@@ -48,6 +52,7 @@ vscjava.vscode-java-test
 vscjava.vscode-maven
 vscode-icons-team.vscode-icons
 vscoss.vscode-ansible
+webfreak.debug
 wholroyd.jinja
 wpilibsuite.vscode-wpilib
 yzhang.markdown-all-in-one

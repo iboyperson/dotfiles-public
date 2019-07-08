@@ -2,13 +2,11 @@
   hosts: local
   roles:
     # Initital bootstrap of the system
-    - { role: user,  tags: ["user", "bootstrap"] }
-    - { role: os,    tags: ["os", "bootstrap"] }
-    - { role: fonts, tags: ["fonts", "bootstrap"] }
-    - { role: zsh,   tags: ["zsh", "bootstrap"] }
-
-    # Setup mDNS resolution
-    - { role: avahi, tags: ["avahi", "desktop_printing"] }
+    - { role: user,       tags: ["user", "bootstrap"] }
+    - { role: os,         tags: ["os", "bootstrap"] }
+    - { role: networking, tags: ["networking", "bootstrap"] }
+    - { role: fonts,      tags: ["fonts", "bootstrap"] }
+    - { role: zsh,        tags: ["zsh", "bootstrap"] }
 
     # Setup of languages and development tools
     - { role: git,    tags: ["git", "devel"] }
@@ -23,10 +21,11 @@
     - { role: enhanced_cli, tags: ["enhanced_cli", "devel"] }
 
     # Setup of Desktop Enviorment and applications
+    - { role: gnome_keyring,        tags: ["gnome-keyring", "desktop"],                     when: desktop|bool }
     - { role: desktop_base,         tags: ["desktop_base", "desktop"],                      when: desktop|bool }
     - { role: desktop_printing,     tags: ["desktop_printing", "desktop"],                  when: desktop|bool }
     - { role: desktop_kde,          tags: ["desktop_kde", "desktop"],                       when: desktop|bool and (desktop_type == "kde") }
     - { role: desktop_applications, tags: ["desktop_applications", "desktop"],              when: desktop|bool }
-    # - { role: ulauncher,            tags: ["ulauncher", "desktop_applications", "desktop"], when: desktop|bool }
+    - { role: ulauncher,            tags: ["ulauncher", "desktop_applications", "desktop"], when: desktop|bool }
     - { role: deadbeef,             tags: ["deadbeef", "desktop_applications", "desktop"],  when: desktop|bool }
     - { role: vscode,               tags: ["vscode", "desktop_applications", "desktop"],    when: desktop|bool }

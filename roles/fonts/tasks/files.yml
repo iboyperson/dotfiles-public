@@ -1,0 +1,5 @@
+- name: Link fonts.conf
+  file:
+    src: "{{ role_path }}/files/fonts.conf"
+    dest: "{{ user_home }}/.config/fontconfig/fonts.conf"
+    state: link
