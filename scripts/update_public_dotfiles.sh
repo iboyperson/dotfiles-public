@@ -32,6 +32,7 @@ do
 done
 
 rsync -a \
+    --delete \
     --filter="dir-merge,- .gitignore" \
     --exclude ".git" \
     --exclude "/README.md" \
