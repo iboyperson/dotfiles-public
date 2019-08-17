@@ -1,4 +1,5 @@
 alefragnani.project-manager
+asabil.meson
 bbenoist.vagrant
 bierner.github-markdown-preview
 bierner.markdown-checkbox
@@ -29,6 +30,7 @@ ms-vscode.Go
 naco-siren.gradle-language
 patbenatar.advanced-new-file
 piotrpalarz.vscode-gitignore-generator
+rebornix.ruby
 redhat.java
 redhat.vscode-xml
 redhat.vscode-yaml
