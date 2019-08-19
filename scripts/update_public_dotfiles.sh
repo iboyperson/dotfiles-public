@@ -45,36 +45,35 @@ rsync -a "$PUBLIC_PATH/README.md" "$REPO_PATH"
 
 
 echo "==> Updating files in git..."
-# Only commit if there are changes
-if output=$(git -C $REPO_PATH status --porcelain) && [ ! -z "$output" ]; then
+# Generate a changelog
+local changes=""
+local hash_updated=false
 
-    # Generate a changelog
-    local changes="Changes:"
-    local hash_updated=false
+for commit in $(git -C $PROJECT_PATH rev-list $(cat $PUBLIC_PATH/last_public_hash)..HEAD)
+do
+    if [[ ! $hash_updated == true ]]; then
+        hash_updated=true
+        echo $commit > $PUBLIC_PATH/last_public_hash
+    fi
 
-    for commit in $(git -C $PROJECT_PATH rev-list $(cat $PUBLIC_PATH/last_public_hash)..HEAD)
-    do
-        if [[ ! $hash_updated == true ]]; then
-            hash_updated=true
-            echo "SD"
-            echo $commit > $PUBLIC_PATH/last_public_hash
-        fi
+    local msg=$(git -C $PROJECT_PATH show --quiet --format=format:"%s" $commit)
 
-        local msg=$(git -C $PROJECT_PATH show --quiet --format=format:"%s" $commit)
+    local role_name="${msg%:*}"
+    if [[ ( ${whitelist_roles[(ie)$role_name]} -le ${#whitelist_roles} || $role_name == "all" ) && ${msg/$role_name} != $msg ]]; then
+        changes+="\n* $msg"
+    fi
+done
 
-        local role_name="${msg%:*}"
-        if [[ ( ${whitelist_roles[(ie)$role_name]} -le ${#whitelist_roles} || $role_name == "all" ) && ${msg/$role_name} != $msg ]]; then
-            changes+="\n* $msg"
-        fi
-    done
-
+# Only commit files if there are documented changes
+if [[ ! -z $changes ]]; then
     # Stage and commit files
     git -C $REPO_PATH add .
-    git -C $REPO_PATH commit -qm "Update public dotfiles" -m "$(echo $changes)"
+    git -C $REPO_PATH commit -qm "Update public dotfiles" -m "$(echo \"Changes:$changes\")"
 
     # Push files to remote repo
-    # git -C $REPO_PATH push -q
+    git -C $REPO_PATH push -q
 fi
+
 
 
 

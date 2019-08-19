@@ -1,0 +1,25 @@
+- name: "Ensure Java JDK and related tools are installed"
+  become: yes
+  pacman:
+    name:
+      - gradle
+      - java-openjfx
+      - java-openjfx-doc
+      - java-openjfx-src
+      - java11-openjfx
+      - java11-openjfx-doc
+      - java11-openjfx-src
+      - java8-openjfx
+      - java8-openjfx-doc
+      - java8-openjfx-src
+      - jdk-openjdk
+      - jdk11-openjdk
+      - jdk8-openjdk
+      - maven
+      - openjdk-doc
+      - openjdk-src
+      - openjdk11-doc
+      - openjdk11-src
+      - openjdk8-doc
+      - openjdk8-src
+    state: present

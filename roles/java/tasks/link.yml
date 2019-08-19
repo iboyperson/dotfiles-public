@@ -1,0 +1,11 @@
+- name: "Link {{ role_name }} env file"
+  file:
+    src: "{{ role_path }}/files/env.zsh"
+    dest: "{{ user_home }}/.zsh/env/{{ role_name }}.zsh"
+    state: link
+
+- name: "Link {{ role_name }} aliases file"
+  file:
+    src: "{{ role_path }}/files/aliases.zsh"
+    dest: "{{ user_home }}/.zsh/aliases/{{ role_name }}.zsh"
+    state: link
