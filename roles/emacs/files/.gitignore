@@ -1,0 +1,11 @@
+# Directories
+config/
+data/
+elpa/
+
+# Files
+*.elc
+*.eld
+*~
+\#*
+\.\#*

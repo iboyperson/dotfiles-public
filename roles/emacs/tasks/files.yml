@@ -1,0 +1,5 @@
+- name: "Link .emacs.d"
+  file:
+    src: "{{ role_path }}/files/.emacs.d"
+    dest: "{{ user_home }}/.emacs.d"
+    state: link

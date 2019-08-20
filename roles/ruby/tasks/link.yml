@@ -1,0 +1,5 @@
+- name: "Link {{ role_name }} env file"
+  file:
+    src: "{{ role_path }}/files/env.zsh"
+    dest: "{{ user_home }}/.zsh/env/{{ role_name }}.zsh"
+    state: link

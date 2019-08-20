@@ -13,6 +13,7 @@
         "css",
         "gitignore",
         "go",
+        "gradle",
         "handlebars",
         "html",
         "ini",
@@ -106,7 +107,6 @@
     "todo-tree.flat": true,
     "todo-tree.grouped": true,
     "java.configuration.checkProjectSettingsExclusions": false,
-    "workbench.activityBar.visible": false,
     "explorer.confirmDelete": false,
     "window.menuBarVisibility": "visible",
     "code-runner.clearPreviousOutput": true,
@@ -118,5 +118,13 @@
     },
     "workbench.iconTheme": "vscode-icons",
     "git.autofetch": true,
-    "explorer.confirmDragAndDrop": false
+    "explorer.confirmDragAndDrop": false,
+    "rust.clippy_preference": "on",
+    "omnisharp.enableEditorConfigSupport": true,
+    "extensions.autoUpdate": false,
+    "vsicons.dontShowNewVersionMessage": true,
+    "java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
+    "java.format.settings.profile": "GoogleStyle",
+    "workbench.activityBar.visible": false,
+    "git.defaultCloneDirectory": ""
 }

@@ -1,0 +1,7 @@
+# Dolphin Files
+.directory
+
+# Emacs Files
+*~
+\#*
+\.\#*

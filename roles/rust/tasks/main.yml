@@ -1,0 +1,19 @@
+# - import_tasks: archlinux.yml
+#   when: ansible_os_family == "Archlinux"
+
+- name: "Perform tasks for [{{ username }}]"
+  block:
+    - name: "Check if rustup is installed"
+      stat:
+        path: "{{ user_home }}/.cargo/bin/rustup"
+      register: rustup
+
+    - name: "Install rustup"
+      shell: "curl https://sh.rustup.rs -sSf | sh -s -- -y"
+      args:
+        warn: False
+      when: not rustup.stat.exists
+      async: 1
+      poll: 0
+  become: yes
+  become_user: "{{ username }}"

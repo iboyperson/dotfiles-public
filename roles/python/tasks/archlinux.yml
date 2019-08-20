@@ -1,0 +1,18 @@
+- name: "Ensure python and related development tools are installed"
+  become: yes
+  pacman:
+    name:
+      - python
+      - python-pip
+      - python2
+      - python2-pip
+      - pyenv
+      - tk
+    state: present
+
+- name: Ensure python AUR packages are installed
+  become: yes
+  become_user: "{{ username }}"
+  aur:
+    name: pyenv
+    skip_installed: true

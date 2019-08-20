@@ -16,7 +16,7 @@
       - mesa
       - mesa-vdpau
       - xf86-video-amdgpu
-  when: intel_gpu_check.rc == 0
+  when: amd_gpu_check.rc == 0
 
 - name: "Install Intel Drivers if required"
   become: yes

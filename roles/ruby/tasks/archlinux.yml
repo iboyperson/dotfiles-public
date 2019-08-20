@@ -1,0 +1,5 @@
+- name: Ensure Ruby is installed
+  become: yes
+  pacman:
+    name: ruby
+    state: present

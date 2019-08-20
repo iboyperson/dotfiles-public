@@ -1,0 +1,8 @@
+- name: Link gitconfig and global gitignore
+  file:
+    src: "{{ role_path }}/files/{{ item }}"
+    dest: "{{ user_home }}/{{ item }}"
+    state: link
+  with_items:
+    - ".gitconfig"
+    - ".gitignore-global"

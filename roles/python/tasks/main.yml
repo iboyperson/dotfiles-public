@@ -1,0 +1,14 @@
+- import_tasks: archlinux.yml
+  when: ansible_os_family == "Archlinux"
+
+- name: "Perform tasks for [{{ username }}]"
+  block:
+    - name: "Install user python packages"
+      pip:
+        name:
+          - pipenv
+        extra_args: --user
+
+    - import_tasks: link.yml
+  become: yes
+  become_user: "{{ username }}"

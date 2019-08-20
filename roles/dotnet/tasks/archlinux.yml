@@ -1,0 +1,7 @@
+- name: Ensure dotnet is installed
+  become: yes
+  pacman:
+    name:
+      - dotnet-runtime
+      - dotnet-sdk
+    state: present

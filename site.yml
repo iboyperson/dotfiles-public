@@ -29,3 +29,4 @@
     - { role: ulauncher,            tags: ["ulauncher", "desktop_applications", "desktop"], when: desktop|bool }
     - { role: deadbeef,             tags: ["deadbeef", "desktop_applications", "desktop"],  when: desktop|bool }
     - { role: vscode,               tags: ["vscode", "desktop_applications", "desktop"],    when: desktop|bool }
+    - { role: emacs,                tags: ["emacs", "desktop_applications", "desktop"],     when: desktop|bool }

@@ -1,0 +1,53 @@
+[core]
+	editor = nvim
+	#askpass = /usr/bin/ksshaskpass
+	pager = diff-so-fancy | less --tabs=4 -RFX
+	excludesfile = /home/iboyperson/.gitignore-global
+
+[user]
+	name = iboyperson
+	email = tjquillan@gmail.com
+
+[credential]
+	helper = /usr/lib/git-core/git-credential-libsecret
+
+[commit]
+	gpgsign = true
+
+[color]
+	branch = auto
+	diff = auto
+	status = auto
+	showbranch = auto
+	ui = true
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "diff"]
+	meta = yellow
+	frag = magenta bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+
+[diff]
+	tool = meld
+[difftool]
+	prompt = false
+[difftool "meld"]
+	cmd = meld "$LOCAL" "$REMOTE"
+
+[merge]
+	tool = meld
+[mergetool "meld"]
+	cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
+
+[alias]
+	cam = commit -am
+	rmc = rm --cache
+
+[include]
+    path = .gitconfig-private

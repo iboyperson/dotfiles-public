@@ -1,0 +1,5 @@
+- name: Ensure Go is installed
+  become: yes
+  pacman:
+    name: go
+    state: present
