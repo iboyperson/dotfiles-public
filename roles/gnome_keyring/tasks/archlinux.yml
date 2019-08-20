@@ -1,0 +1,7 @@
+- name: Ensure gnome-keyring and related packages are installed
+  become: yes
+  pacman:
+    name:
+      - gnome-keyring
+      - libsecret
+    state: present

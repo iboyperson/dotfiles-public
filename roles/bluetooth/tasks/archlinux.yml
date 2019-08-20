@@ -1,0 +1,9 @@
+- name: Ensure bluez and related packages are installed
+  become: yes
+  pacman:
+    name:
+      - bluez
+      - bluez-libs
+      - bluez-utils
+      - pulseaudio-bluetooth
+    state: present

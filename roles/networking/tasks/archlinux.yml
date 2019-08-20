@@ -1,0 +1,9 @@
+- name: Ensure networkmanager is installed
+  become: yes
+  pacman:
+    name:
+      - networkmanager
+      - networkmanager-openvpn
+    state: present
+
+- import_tasks: systemd.yml

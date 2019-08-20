@@ -1,0 +1,8 @@
+- name: "Enable networking with systemd"
+  become: yes
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+  with_items:
+    - "NetworkManager.service"
+    - "NetworkManager-dispatcher.service"

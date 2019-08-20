@@ -1,0 +1,15 @@
+- import_tasks: archlinux.yml
+  when: ansible_os_family == "Archlinux"
+
+- name: "Add automatic timezone switching"
+  copy:
+    src: "{{ role_path }}/files/09-timezone"
+    dest: "/etc/NetworkManager/dispatcher.d"
+    owner: root
+    group: root
+    mode: "755"
+  become: yes
+
+- name: "Setup mDNS resolution"
+  import_role:
+    name: avahi

@@ -1,0 +1,26 @@
+- import_tasks: archlinux.yml
+  when: ansible_os_family == "Archlinux"
+
+- name: "Perform tasks for [{{ username }}]"
+  block:
+    - import_tasks: files.yml
+
+    - name: "Copy autostart files"
+      copy:
+        src: "/etc/xdg/autostart/{{ item }}"
+        dest: "{{ user_home }}/.config/autostart/"
+        force: no
+      with_items:
+        - gnome-keyring-secrets.desktop
+        - gnome-keyring-ssh.desktop
+
+    - name: "Remove 'OnlyShowIn' from autostart files"
+      lineinfile:
+        path: "{{ user_home }}/.config/autostart/{{ item }}"
+        regexp: "^OnlyShowIn.*$"
+        state: absent
+      with_items:
+        - gnome-keyring-secrets.desktop
+        - gnome-keyring-ssh.desktop
+  become: yes
+  become_user: "{{ username }}"
