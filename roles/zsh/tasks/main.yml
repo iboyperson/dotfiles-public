@@ -1,0 +1,45 @@
+- import_tasks: archlinux.yml
+  when: ansible_os_family == "Archlinux"
+
+- name: "Change root's shell to zsh"
+  become: yes
+  user:
+    name: "root"
+    shell: /bin/zsh
+
+- name: "Change [{{ username }}]'s shell to zsh"
+  become: yes
+  user:
+    name: "{{ username }}"
+    shell: /bin/zsh
+
+- name: "Perform tasks for [{{ username }}]"
+  block:
+    - name: "Make .zsh directory"
+      file:
+        path: "{{ user_home }}/.zsh"
+        state: directory
+
+    - name: "Make .zsh/aliases directory"
+      file:
+        path: "{{ user_home }}/.zsh/aliases"
+        state: directory
+
+    - name: "Make .zsh/env directory"
+      file:
+        path: "{{ user_home }}/.zsh/env"
+        state: directory
+
+    - name: "Make .zsh/scripts directory"
+      file:
+        path: "{{ user_home }}/.zsh/scripts"
+        state: directory
+
+    - import_tasks: backup.yml
+
+    - import_tasks: files.yml
+
+    - import_tasks: zplugin.yml
+      when: zsh_zplugin|bool
+  become: yes
+  become_user: "{{ username }}"

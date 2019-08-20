@@ -1,0 +1,10 @@
+- name: 'Check for ZPlugin Installation'
+  stat:
+    path: '~/.zplugin'
+  register: zplugin_dir
+
+- name: 'Install ZPlugin'
+  shell: 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"'
+  when: not zplugin_dir.stat.exists
+  async: 1
+  poll: 0

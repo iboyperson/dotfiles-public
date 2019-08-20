@@ -1,0 +1,148 @@
+#compdef pip pip2 pip2.7 pip3 pip3.2 pip3.3 pip3.4 pip3.5 pip3.6 pip3.7
+#autoload
+
+# pip zsh completion, based on last stable release (pip 19)
+# homebrew completion and backwards compatibility
+
+_pip_caching_policy() {
+  local -a oldp
+  oldp=( "$1"(Nmh+24) )  # 24 hours
+  (( $#oldp ))
+}
+
+_get_pip_packages() {
+  local cache_policy
+  zstyle -s ":completion:${curcontext}:" cache-policy cache_policy
+  if [[ -z "$cache_policy" ]]; then
+    zstyle ":completion:${curcontext}:" cache-policy _pip_caching_policy
+  fi
+
+  if ( [[ ${+_pip_packages} -eq 0 ]] || _cache_invalid pip_packages ) \
+      && ! _retrieve_cache pip_packages; then
+    _pip_packages=($(curl https://pypi.org/simple/ 2>/dev/null | sed -n '/<a href/ s/.*>\([^<]\{1,\}\).*/\1/p' | uniq | tr '\n' ' '))
+    _store_cache pip_packages _pip_packages
+  fi
+
+  _wanted pip_packages expl "packages" compadd -a _pip_packages
+}
+
+_get_pip_installed() {
+  _installed_pkgs=(`pip freeze | cut -d "=" -f 1`)
+  _wanted installed_pkgs expl "installed packages" compadd -a _installed_pkgs
+}
+
+local -a _1st_arguments
+_1st_arguments=(
+  "install:Install packages"
+  "download:Download packages"
+  "uninstall:Uninstall packages"
+  "freeze:Output installed packages in requirements format"
+  "list:List installed packages"
+  "show:Show information about installed packages"
+  "check:Verify installed packages have compatible dependencies"
+  "config:Manage local and global configuration"
+  "search:Search PyPI for packages"
+  "wheel:Build wheels from your requirements"
+  "hash:Compute hashes of package archives"
+  "completion:A helper command used for command completion"
+  "help:show available commands"
+)
+
+local expl
+
+_arguments \
+  "(-h --help)"{-h,--help}"[show help]" \
+  "(--isolated)--isolated[Run pip in an isolated mode, ignoring environment variables and user configuration]" \
+  "(-v --verbose)"{-v,--verbose}"[Give more output. Option is additive, and can be used up to 3 times]" \
+  "(-V --version)"{-V,--version}"[Show version and exit]" \
+  "(-q --quiet)"{-q,--quiet}"[Give less output. Option is additive, and can be used up to 3 times (corresponding to WARNING, ERROR, and CRITICAL logging levels)]" \
+  "(--log)--log[Path to a verbose appending log]" \
+  "(--proxy)--proxy[Specify a proxy in the form \[user:passwd@\]proxy.server:port]" \
+  "(--retries)--retries[Maximum number of retries each connection should attempt (default 5 times)]" \
+  "(--timeout)--timeout[Set the socket timeout (default 15 seconds)]" \
+  "(--exists-action)--exists-action[Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort]" \
+  "(--trusted-host)--trusted-host[Mark this host as trusted, even though it does not have valid or any HTTPS]" \
+  "(--cert)--cert[Path to alternate CA bundle]" \
+  "(--client-cert)--client-cert[Path to SSL client certificate, a single file containing the private key and the certificate in PEM format]" \
+  "(--cache-dir)--cache-dir[Store the cache data in <dir>]" \
+  "(--no-cache-dir)--no-cache-dir[Disable the cache]" \
+  "(--disable-pip-version-check)--disable-pip-version-check[Dont periodically check PyPI to determine whether a new version of pip is available for download. Implied with --no-index]" \
+  "(--no-color)--no-color[Suppress colored output]" \
+  "*:: :->subcmds" && return 0
+
+if (( CURRENT == 1 )); then
+  _describe -t commands "pip subcommand" _1st_arguments
+  return
+fi
+
+case "$words[1]" in
+  search)
+    _arguments \
+      "(--index)--index[Base URL of Python Package Index]" ;;
+  freeze)
+    _arguments \
+      "(-r --requirement)"{-r,--requirement}"[Use the order in the given requirements file and its comments when generating output. This option can be used multiple times]" \
+      "(-f --find-links)"{-f,--find-links}"[URL for finding packages, which will be added to the output]" \
+      "(-l --local)"{-l,--local}"[If in a virtualenv that has global access, do not output globally-installed packages]" \
+      "(--user)--user[Only output packages installed in user-site]" \
+      "(--all)--all[Do not skip these packages in the output: wheel, distribute, setuptools, pip]" \
+      "(--exclude-editable)--exclude-editable[Exclude editable package from output]" ;;
+  install)
+    _arguments \
+      "(-r --requirement)"{-r,--requirement}"[Install from the given requirements file. This option can be used multiple times]:File:_files" \
+      "(-c --constraint)"{-c,--constraint}"[Constrain versions using the given constraints file. This option can be used multiple times]" \
+      "(--no-deps)--no-deps[Dont install package dependencies]" \
+      "(--pre)--pre[Include pre-release and development versions. By default, pip only finds stable versions]" \
+      "(-e --editable)"{-e,--editable}"[Install a project in editable mode (i.e. setuptools 'develop mode') from a local project path or a VCS url]: :_files -/" \
+      "(-t --target)"{-t,--target}"[Install packages into <dir>]" \
+      "(--platform)--platform[Only use wheels compatible with <platform>. Defaults to the platform of the running system]" \
+      "(--python-version)--python-version[Only use wheels compatible with Python interpreter version <version>]" \
+      "(--implementation)--implementation[Only use wheels compatible with Python implementation <implementation>]" \
+      "(--abi)--abi[Only use wheels compatible with Python abi <abi>]" \
+      "(--user)--user[Install to the Python user install directory for your platform]" \
+      "(--root)--root[Install everything relative to this alternate root directory]" \
+      "(--prefix)--prefix[Installation prefix where lib, bin and other top-level folders are placed]" \
+      "(-b --build)"{-b,--build}"[Directory to unpack packages into and build in]" \
+      "(--src)--src[Directory to check out editable projects into.]" \
+      "(-U --upgrade)"{-U,--upgrade}"[Upgrade all specified packages to the newest available version]" \
+      "(--upgrade-strategy)--upgrade-strategy[Determines how dependency upgrading should be handled]" \
+      "(--force-reinstall)--force-reinstall[Reinstall all packages even if they are already up-to-date]" \
+      "(-I --ignore-installed)"{-I,--ignore-installed}"[Ignore the installed packages (reinstalling instead)]"\
+      "(--ignore-requires-python)--ignore-requires-python[Ignore the Requires-Python information]" \
+      "(--no-build-isolation)--no-build-isolation[Disable isolation when building a modern source distribution]" \
+      "(--use-pep517)--use-pep517[Use PEP 517 for building source distributions (use --no-use-pep517 to force legacy behaviour)]" \
+      "(--no-use-pep517)--no-use-pep517[Do not use PEP 517 for building source distributions (legacy behaviour)]" \
+      "(--install-option)--install-option[Extra arguments to be supplied to the setup.py install command (use like --install-option='--install-scripts=/usr/local/bin')]" \
+      "(--global-option)--global-option[Extra global options to be supplied to the setup.py call before the install command]" \
+      "(--compile)--compile[Compile Python source files to bytecode]" \
+      "(--no-compile)--no-compile[Do not compile Python source files to bytecode]" \
+      "(--no-warn-script-location)--no-warn-script-location[Do not warn when installing scripts outside PATH]" \
+      "(--no-warn-conflicts)--no-warn-conflicts[Do not warn about broken dependencies]" \
+      "(--only-binary)--only-binary[Do not use source packages]" \
+      "(--prefer-binary)--prefer-binary[Prefer older binary packages over newer source packages]" \
+      "(--no-clean)--no-clean[Don't clean up build directories]" \
+      "(--require-hashes)--require-hashes[Require a hash to check each requirement against, for repeatable installs]" \
+      "(--progress-bar)--progress-bar[Specify type of progress to be displayed \[off|on|ascii|pretty|emoji\]]" \
+      "1: :->packages" &&  return 0
+
+      if [[ "$state" == packages ]]; then
+         _get_pip_packages
+      fi ;;
+  uninstall)
+    _arguments \
+      "(-r --requirement)"{-r,--requirement}"[Uninstall all the packages listed in the given requirements file.  This option can be used multiple times]" \
+      "(-y --yes)"{-y,--yes}"[Don't ask for confirmation of uninstall deletions]" \
+      "1: :->packages" &&  return 0
+
+      if [[ "$state" == packages ]]; then
+        _get_pip_installed
+      fi ;;
+  show)
+    _arguments \
+      "(-f --files)"{-f,--files}"[Show the full list of installed files for each package]" \
+      "1: :->packages" &&  return 0
+
+      if [[ "$state" == packages ]]; then
+        _get_pip_installed
+      fi ;;
+esac

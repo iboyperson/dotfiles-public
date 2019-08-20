@@ -1,0 +1,7 @@
+- name: Ensure ZSH and related are installed
+  become: yes
+  pacman:
+    name:
+      - zsh
+      - svn # Needed by plugin manager
+    state: present

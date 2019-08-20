@@ -1,0 +1,27 @@
+- name: Check if .zshenv already exists
+  stat: path="{{ user_home }}/.zshrc"
+  register: zshenv
+
+- name: Check if .zshenv.bak already exists
+  stat: path="{{ user_home }}/.zshrc.bak"
+  register: zshenv_bak
+
+- name: Backup .zshenv if it exists
+  command: mv "{{ user_home }}/.zshenv" "{{ user_home }}/.zshenv.bak"
+  args:
+    creates: "{{ user_home }}/.zshenv.bak"
+  when: zshenv.stat.exists and not zshenv.stat.islnk and not zshenv_bak.stat.exists
+
+- name: Check if .zshrc already exists
+  stat: path="{{ user_home }}/.zshrc"
+  register: zshrc
+
+- name: Check if .zshrc.bak already exists
+  stat: path="{{ user_home }}/.zshrc.bak"
+  register: zshrc_bak
+
+- name: Backup .zshrc if it exists
+  command: mv "{{ user_home }}/.zshrc" "{{ user_home }}/.zshrc.bak"
+  args:
+    creates: "{{ user_home }}/.zshrc.bak"
+  when: zshrc.stat.exists and not zshrc.stat.islnk and not zshrc_bak.stat.exists
