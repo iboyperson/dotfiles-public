@@ -77,8 +77,6 @@ do
     fi
 done
 
-echo $changes
-
 # Only commit files if there are documented changes
 if [[ ! -z $changes ]]; then
     # Stage and commit files
