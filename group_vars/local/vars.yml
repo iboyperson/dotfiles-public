@@ -1,6 +1,6 @@
 # Specify wether to install desktop (and desktop applications) or not
 desktop: yes
-desktop_type: kde
+desktop_type: none
 
 # Specify languages to install
 go: yes

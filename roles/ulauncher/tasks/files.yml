@@ -1,0 +1,10 @@
+- name: "Autostart ulauncher file"
+  copy:
+    src: "{{ role_path }}/files/ulauncher.desktop"
+    dest: "{{ user_home }}/.config/autostart/ulauncher.desktop"
+
+- name: "Link ulauncher config"
+  file:
+    src: "{{ role_path }}/files/ulauncher"
+    dest: "{{ user_home }}/.config/ulauncher"
+    state: link

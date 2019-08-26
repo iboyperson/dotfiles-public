@@ -1,0 +1,15 @@
+- name: "Set root password"
+  become: yes
+  user:
+    name: "root"
+    password: "{{ root_password }}"
+
+- name: "Add the user [{{ username }}] if it does not already exist"
+  become: yes
+  user:
+    name: "{{ username }}"
+    password: "{{ user_password }}"
+    comment: "{{ full_name }}"
+    create_home: yes
+    groups: sys,wheel,users
+    append: yes

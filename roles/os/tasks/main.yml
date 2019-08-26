@@ -1,0 +1,11 @@
+- import_role:
+    name: archlinux
+  when: ansible_os_family == "Archlinux"
+
+- name: Sync sudoers file
+  synchronize:
+    src: "{{ role_path }}/files/sudoers"
+    dest: "/etc/sudoers"
+    archive: no
+    checksum: yes
+  become: yes

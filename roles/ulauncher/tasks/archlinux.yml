@@ -1,0 +1,7 @@
+- name: Ensure ulauncher is installed
+  become: yes
+  become_user: "{{ username }}"
+  aur:
+    name:
+      - ulauncher
+    skip_installed: true

@@ -1,17 +1,17 @@
 - name: "Check for AMD GPU"
-  shell: "if [[ $(lspci | grep AMD) ]]; then; return 0; else; return 1; fi"
+  shell: "if [[ $(lspci | grep AMD) ]]; then exit 0; else exit 1; fi"
   register: amd_gpu_check
   failed_when: ( amd_gpu_check.rc not in [ 0, 1 ] )
   changed_when: False
 
 - name: "Check for Intel GPU"
-  shell: "if [[ $(lspci | grep Intel) ]]; then; return 0; else; return 1; fi"
+  shell: "if [[ $(lspci | grep Intel) ]]; then exit 0; else exit 1; fi"
   register: intel_gpu_check
   failed_when: ( intel_gpu_check.rc not in [ 0, 1 ] )
   changed_when: False
 
 - name: "Check for Nvidia GPU"
-  shell: "if [[ $(lspci | grep NVIDIA) ]]; then; return 0; else; return 1; fi"
+  shell: "if [[ $(lspci | grep NVIDIA) ]]; then exit 0; else exit 1; fi"
   register: nvidia_gpu_check
   failed_when: ( nvidia_gpu_check.rc not in [ 0, 1 ] )
   changed_when: False

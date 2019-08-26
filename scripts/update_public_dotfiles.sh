@@ -58,6 +58,8 @@ echo "==> Updating files in git..."
 local changes=""
 local hash_updated=false
 
+whitelist_roles+=("all" "public" "general")
+
 for commit in $(git -C $MIRROR_PATH rev-list $(cat $PROJECT_PUBLIC_PATH/last_public_hash)..HEAD)
 do
     if [[ ! $hash_updated == true ]]; then
@@ -70,10 +72,12 @@ do
     local msg=$(git -C $MIRROR_PATH show --quiet --format=format:"%s" $commit)
 
     local role_name="${msg%:*}"
-    if [[ ( ${whitelist_roles[(ie)$role_name]} -le ${#whitelist_roles} || $role_name == "all" || $role_name == "public" ) && ${msg/$role_name} != $msg ]]; then
+    if [[ ( ${whitelist_roles[(ie)$role_name]} -le ${#whitelist_roles}) && ${msg/$role_name} != $msg ]]; then
         changes+="\n* $msg"
     fi
 done
+
+echo $changes
 
 # Only commit files if there are documented changes
 if [[ ! -z $changes ]]; then
