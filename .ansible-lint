@@ -1,6 +1,5 @@
 skip_list:
   - '701'  # We dont care about ansible galaxy
-  - '306'  # TODO: Look into using pipefail
   - '204'  # Line length doesn't matter
 use_default_rules: true
 verbosity: 0
