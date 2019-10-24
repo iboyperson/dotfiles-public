@@ -1,10 +1,8 @@
+;;; -*- lexical-binding: t; -*-
 ;;; init-projectile -- projectile initalization
 
 ;;; Code:
-(require 'req-package)
-
 (req-package projectile
-  :ensure t
   :config
   (projectile-mode))
 

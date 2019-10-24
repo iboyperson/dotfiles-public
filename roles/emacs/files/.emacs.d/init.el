@@ -1,25 +1,28 @@
+;;; -*- lexical-binding: t; -*-
 ;;; init -- emacs init
 
 ;;; Code:
-;(package-initialize)
+;; A big contributor to startup times is garbage collection. We up the gc
+;; threshold to temporarily prevent it from running, then reset it later with
+;; `restore-garbage-collection'. Not resetting it will cause
+;; stuttering/freezes.
+(setq gc-cons-threshold most-positive-fixnum)
 
-;;Set GC
-(setq gc-cons-threshold 100000000)
-      
-;; Maxamize on startup
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+;; In noninteractive sessions, prioritize non-byte-compiled source files to
+;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
+;; to skip the mtime checks on every *.elc file we load.
+(setq load-prefer-newer noninteractive)
 
-;; Turn off sctartup screen
-(setq inhibit-splash-screen t)
-(setq inhibit-startup-message t)
+;; Load core
+(load (concat user-emacs-directory "core/core") nil 'nomessage)
 
-;;Set font
-(set-frame-font "Hack 10")
-
-;; Load packages
-(require 'package)
-(add-hook 'after-init-hook (lambda () (load "~/.emacs.d/load-packages.el")))
+;; (add-hook 'emacs-startup-hook
+;;           (lambda ()
+;;             (message "Emacs ready in %s with %d garbage collections."
+;;                      (format "%.2f seconds"
+;;                              (float-time
+;;                               (time-subtract after-init-time before-init-time)))
+;;                      gcs-done)))
 
 (provide 'init)
 ;;; init.el ends here

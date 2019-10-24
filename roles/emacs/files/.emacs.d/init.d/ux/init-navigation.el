@@ -1,8 +1,7 @@
+;;; -*- lexical-binding: t; -*-
 ;;; init-navigation -- init all emacs navigation related packages
 
 ;;; Code:
-(require 'req-package)
-
 (req-package windmove
   :bind
   (("C-c <left>" . windmove-left)

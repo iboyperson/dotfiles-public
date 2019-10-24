@@ -11,7 +11,7 @@
 - name: Sync pacman.d/hooks/ file
   synchronize:
     src: "{{ role_path }}/files/hooks"
-    dest: "/etc/pacman.d/hooks"
+    dest: "/etc/pacman.d/"
     archive: no
     checksum: yes
     recursive: yes

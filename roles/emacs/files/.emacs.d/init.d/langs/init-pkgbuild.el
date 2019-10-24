@@ -1,11 +1,8 @@
+;;; -*- lexical-binding: t; -*-
 ;;; init-pkgbuild -- pkgbuild mode
 
 ;;; Code:
-
-(require 'req-package)
-
 (req-package pkgbuild-mode
-  :ensure t
   :mode "\\PKGBUILD\\'")
 
 (provide 'init-pkgbuild)

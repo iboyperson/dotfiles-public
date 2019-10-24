@@ -1,7 +1,9 @@
 # Directories
+auto-save-list/
 config/
 data/
 elpa/
+straight/
 
 # Files
 *.elc

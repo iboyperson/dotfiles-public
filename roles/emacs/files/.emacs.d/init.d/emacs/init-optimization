@@ -1,0 +1,72 @@
+;;; init-optimization -- init optimizations for emacs
+
+;;; Code:
+;; Disable bidirectional text rendering for a modest performance boost. Of
+;; course, this renders Emacs unable to detect/display right-to-left languages
+;; (sorry!), but for us left-to-right language speakers/writers, it's a boon.
+(setq-default bidi-display-reordering 'left-to-right)
+
+;; Reduce rendering/line scan work for Emacs by not rendering cursors or regions
+;; in non-focused windows.
+(setq-default cursor-in-non-selected-windows nil)
+(setq highlight-nonselected-windows nil)
+
+;; More performant rapid scrolling over unfontified regions. May cause brief
+;; spells of inaccurate fontification immediately require scrolling.
+(setq fast-but-imprecise-scrolling t)
+
+;; Resizing the Emacs frame can be a terribly expensive part of changing the
+;; font. By inhibiting this, we easily halve startup times with fonts that are
+;; larger than the system default.
+(setq frame-inhibit-implied-resize t)
+
+;; Don't ping things that look like domain names.
+(setq ffap-machine-p-known 'reject)
+
+;; Performance on Windows is considerably worse than elsewhere. We'll need
+;; everything we can get.
+(when IS-WINDOWS
+  ;; Reduce the workload when doing file IO
+  (setq w32-get-true-file-attributes nil)
+
+  ;; Font compacting can be terribly expensive, especially for rendering icon
+  ;; fonts on Windows. Whether it has a noteable affect on Linux and Mac hasn't
+  ;; been determined.
+  (setq inhibit-compacting-font-caches t))
+
+;; Remove command line options that aren't relevant to our current OS; that
+;; means less to process at startup.
+(unless IS-MAC   (setq command-line-ns-option-alist nil))
+(unless IS-LINUX (setq command-line-x-option-alist nil))
+
+;; This is consulted on every `require', `load' and various path/io functions.
+;; You get a minor speed up by nooping this.
+(defvar initial-file-name-handler-alist file-name-handler-alist)
+(setq file-name-handler-alist nil)
+
+(defun restore-file-name-handler-alist ()
+  (setq file-name-handler-alist initial-file-name-handler-alist))
+
+(add-hook 'emacs-startup-hook #'restore-file-name-handler-alist)
+
+;; To speed up minibuffer commands (like helm and ivy), we defer garbage
+;; collection while the minibuffer is active.
+(defun defer-garbage-collection ()
+  (setq gc-cons-threshold most-positive-fixnum))
+
+(defun restore-garbage-collection ()
+  (run-at-time
+   1 nil (lambda () (setq gc-cons-threshold 16777216)))) ; 16mb
+
+(add-hook 'minibuffer-setup-hook #'defer-garbage-collection)
+(add-hook 'minibuffer-exit-hook #'restore-garbage-collection)
+
+;; Not restoring these to their defaults will cause stuttering/freezes.
+(add-hook 'emacs-startup-hook #'restore-garbage-collection)
+
+;; When Emacs loses focus seems like a great time to do some garbage collection
+;; all sneaky breeky like, so we can return a fresh(er) Emacs.
+(add-hook 'focus-out-hook #'garbage-collect)
+
+(provide 'init-optimization)
+;;; init-optimization.el ends here

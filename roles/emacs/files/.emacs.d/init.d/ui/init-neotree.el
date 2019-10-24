@@ -1,8 +1,7 @@
+;;; -*- lexical-binding: t; -*-
 ;;; init-neotree -- init neotree related packages
 
 ;;; Code:
-(require 'req-package)
-
 ;(req-package neotree
 ;  :ensure t
 ;  :require all-the-icons

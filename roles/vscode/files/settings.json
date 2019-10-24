@@ -25,6 +25,7 @@
         "jsonc",
         "latex",
         "less",
+        "lisp",
         "makefile",
         "markdown",
         "php",
@@ -49,7 +50,7 @@
     ],
     "cSpell.language": "en",
     "code-runner.enableAppInsights": false,
-    "editor.fontFamily": "'Fira Code'",
+    "editor.fontFamily": "Fira Code",
     "editor.fontLigatures": true,
     "editor.fontSize": 14,
     "editor.minimap.enabled": false,
@@ -65,12 +66,11 @@
     "telemetry.enableCrashReporter": false,
     "telemetry.enableTelemetry": false,
     "terminal.external.linuxExec": "konsole",
-    "terminal.integrated.fontFamily": "'Fira Code'",
+    "terminal.integrated.fontFamily": "Fira Code",
     "terminal.integrated.fontSize": 14,
     "terminal.integrated.scrollback": 100000,
     "window.zoomLevel": 0,
     "workbench.startupEditor": "newUntitledFile",
-    "workbench.statusBar.feedback.visible": false,
     "files.autoSave": "afterDelay",
     "java.saveActions.organizeImports": true,
     "java.errors.incompleteClasspath.severity": "ignore",
@@ -86,28 +86,13 @@
             "source.organizeImports": true
         }
     },
-    "todo-tree.defaultHighlight": {
-        "foreground": "green",
-        "type": "none"
-    },
-    "todo-tree.customHighlight": {
-        "TODO": {},
-        "FIXME": {}
-    },
-    "todo-tree.tags": [
-        "TODO",
-        "FIXME"
-    ],
     "java.home": "/usr/lib/jvm/default",
     "python.linting.flake8Enabled": true,
     "python.linting.pylintEnabled": false,
     "workbench.colorTheme": "One Dark Pro",
     "search.location": "panel",
     "zenMode.centerLayout": false,
-    "todo-tree.flat": true,
-    "todo-tree.grouped": true,
     "java.configuration.checkProjectSettingsExclusions": false,
-    "explorer.confirmDelete": false,
     "window.menuBarVisibility": "visible",
     "code-runner.clearPreviousOutput": true,
 	"code-runner.executorMap": {
@@ -126,5 +111,53 @@
     "java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
     "java.format.settings.profile": "GoogleStyle",
     "workbench.activityBar.visible": false,
-    "git.defaultCloneDirectory": ""
+    "git.defaultCloneDirectory": "",
+    "terminal.integrated.rendererType": "dom",
+    "fileutils.delete.useTrash": true,
+    "todo-tree.highlights.defaultHighlight": {
+        "foreground": "green",
+        "type": "none"
+    },
+    "todo-tree.tree.flat": true,
+    "todo-tree.tree.grouped": true,
+    "todo-tree.highlights.customHighlight": {
+        "TODO": {},
+        "FIXME": {}
+    },
+    "todo-tree.general.tags": [
+		"TODO",
+		"FIXME"
+    ],
+    "better-comments.tags": [
+		{
+			"tag": "!",
+			"color": "#E06C75",
+			"strikethrough": false,
+			"backgroundColor": "transparent"
+		},
+		{
+			"tag": "?",
+			"color": "#61AFEF",
+			"strikethrough": false,
+			"backgroundColor": "transparent"
+		},
+		{
+			"tag": "//",
+			"color": "#474747",
+			"strikethrough": true,
+			"backgroundColor": "transparent"
+		},
+		{
+			"tag": "todo",
+			"color": "#E5C07B",
+			"strikethrough": false,
+			"backgroundColor": "transparent"
+		},
+		{
+			"tag": "*",
+			"color": "#98C379",
+			"strikethrough": false,
+			"backgroundColor": "transparent"
+		}
+    ],
 }

@@ -1,0 +1,13 @@
+;;; -*- lexical-binding: t; -*-
+;;; init-flyspell -- init all flyspell related packages
+
+;;; Code:
+(req-package flyspell-correct
+  :commands (flyspell-correct-word-generic flyspell-correct-previous-word-generic)
+  :config
+  (straight-use-package 'flyspell-correct-helm)
+  (require 'flyspell-correct-helm nil t))
+
+
+(provide 'init-flyspell)
+;;; init-flyspell ends here
