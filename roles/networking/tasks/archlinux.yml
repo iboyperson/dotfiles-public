@@ -6,4 +6,5 @@
       - networkmanager-openvpn
     state: present
 
-- import_tasks: systemd.yml
+- name: "Include systemd specific tasks"
+  include_tasks: systemd.yml

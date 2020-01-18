@@ -1,6 +1,9 @@
 #!/bin/sh
-case "$2" in
-    up)
-        timedatectl set-timezone "$(curl --fail https://ipapi.co/timezone)"
-    ;;
-esac
+if [ "$2" = "up" ]; then
+    TIMEZONE="$(curl --fail --silent https://ipapi.co/timezone)"
+    if [ "$TIMEZONE" != "" ]; then
+        timedatectl set-timezone "$TIMEZONE"
+    else
+	echo "Failed to retrieve timezone with interface: $1."
+    fi
+fi

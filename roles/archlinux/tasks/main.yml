@@ -32,11 +32,19 @@
         update_cache: yes
         upgrade: yes
 
-    - name: "Ensure base and base-devel are installed"
+    - name: "Ensure base, base-devel, and essentials are installed"
       pacman:
         name:
           - base
           - base-devel
+          - which
+          - less
+          - linux
+          - linux-firmware
+          - man-db
+          - man-pages
+          - vi
+          - vim
         state: present
   become: yes
 

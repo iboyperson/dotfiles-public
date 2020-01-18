@@ -13,8 +13,8 @@
 
 - name: Link zplugin-init file
   file:
-    src: "{{ role_path }}/files/.zplugin-init"
-    dest: "{{ user_home }}/.zplugin-init"
+    src: "{{ role_path }}/files/.zplugin-init.zsh"
+    dest: "{{ user_home }}/.zplugin-init.zsh"
     state: link
   when: zsh_zplugin|bool
 

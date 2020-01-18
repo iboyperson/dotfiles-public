@@ -18,7 +18,7 @@ _run_compinit() {
 }
 
 # Zplugin
-source ~/.zplugin-init
+source ~/.zplugin-init.zsh
 
 # load zsh config files
 setopt extendedglob

@@ -3,7 +3,6 @@
   pacman:
     name:
       - antiword
-      - cloudprint-cups
       - cups
       - cups-filters
       - cups-pdf
@@ -41,4 +40,6 @@
       - hpoj
     skip_installed: true
 
-- import_tasks: systemd.yml
+- name: "Include systemd specific tasks"
+  include_tasks: systemd.yml
+

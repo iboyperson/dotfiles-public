@@ -46,8 +46,7 @@
 	cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
 
 [alias]
-	cam = commit -am
-	rmc = rm --cache
+	undo = reset HEAD~
 
 [include]
     path = .gitconfig-private

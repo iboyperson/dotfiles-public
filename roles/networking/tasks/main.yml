@@ -1,5 +1,11 @@
-- import_tasks: archlinux.yml
-  when: ansible_os_family == "Archlinux"
+- name: "Check for distribution task file"
+  stat:
+    path: "{{ role_path }}/tasks/{{ ansible_distribution|lower }}.yml"
+  register: distribution_file
+
+- name: "Include distribution specific tasks"
+  include_tasks: "{{ ansible_os_family|lower }}.yml"
+  when: distribution_file.stat.exists
 
 - name: "Add automatic timezone switching"
   copy:

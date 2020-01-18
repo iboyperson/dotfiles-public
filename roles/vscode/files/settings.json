@@ -112,8 +112,7 @@
     "java.format.settings.profile": "GoogleStyle",
     "workbench.activityBar.visible": false,
     "git.defaultCloneDirectory": "",
-    "terminal.integrated.rendererType": "dom",
-    "fileutils.delete.useTrash": true,
+    "terminal.integrated.rendererType": "experimentalWebgl",
     "todo-tree.highlights.defaultHighlight": {
         "foreground": "green",
         "type": "none"
@@ -159,5 +158,10 @@
 			"strikethrough": false,
 			"backgroundColor": "transparent"
 		}
+    ],
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "task.slowProviderWarning": [
+        "gradle"
     ],
 }

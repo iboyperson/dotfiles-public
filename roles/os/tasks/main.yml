@@ -1,6 +1,12 @@
-- import_role:
-    name: archlinux
-  when: ansible_os_family == "Archlinux"
+- name: "Check for distribution role"
+  stat:
+    path: "roles/{{ ansible_distribution|lower }}"
+  register: distribution_role
+
+- name: "Include distribution specific role"
+  include_role:
+    name: "{{ ansible_os_family|lower }}"
+  when: distribution_role.stat.exists
 
 - name: Sync sudoers file
   synchronize:
