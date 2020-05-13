@@ -1,36 +1,36 @@
 
-- name: Link zshenv file
+- name: Link zshenv
   file:
     src: "{{ role_path }}/files/.zshenv"
     dest: "{{ user_home }}/.zshenv"
     state: link
 
-- name: Link zshrc file
+- name: Link zshrc
   file:
     src: "{{ role_path }}/files/.zshrc"
     dest: "{{ user_home }}/.zshrc"
     state: link
 
-- name: Link zplugin-init file
+- name: Link Zinit bootstraper
   file:
-    src: "{{ role_path }}/files/.zplugin-init.zsh"
-    dest: "{{ user_home }}/.zplugin-init.zsh"
+    src: "{{ role_path }}/files/.zinit-bootstrap.zsh"
+    dest: "{{ user_home }}/.zinit-bootstrap.zsh"
     state: link
-  when: zsh_zplugin|bool
+  when: zsh_zinit|bool
 
-- name: Link aliases file
+- name: Link aliases
   file:
     src: "{{ role_path }}/files/aliases.zsh"
     dest: "{{ user_home }}/.zsh/aliases/zsh.zsh"
     state: link
 
-- name: Link completions.zsh file
+- name: Link completions script
   file:
     src: "{{ role_path }}/files/completion.zsh"
     dest: "{{ user_home }}/.zsh/scripts/completion.zsh"
     state: link
 
-- name: "Link .zsh/completions directory"
+- name: "Link completions"
   file:
     src: "{{ role_path }}/files/completions"
     dest: "{{ user_home }}/.zsh/completions"

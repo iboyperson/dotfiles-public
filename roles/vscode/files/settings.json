@@ -1,167 +1,152 @@
 {
-    
-    "files.associations": {
-        "*.el": "lisp"
-    },
-    "bracketPairColorizer.timeOut": 0,
-    "cSpell.diagnosticLevel": "Hint",
-    "cSpell.enabledLanguageIds": [
-        "asciidoc",
-        "c",
-        "cpp",
-        "csharp",
-        "css",
-        "gitignore",
-        "go",
-        "gradle",
-        "handlebars",
-        "html",
-        "ini",
-        "jade",
-        "java",
-        "javascript",
-        "javascriptreact",
-        "json",
-        "jsonc",
-        "latex",
-        "less",
-        "lisp",
-        "makefile",
-        "markdown",
-        "php",
-        "plaintext",
-        "properties",
-        "pub",
-        "python",
-        "restructuredtext",
-        "ruby",
-        "rust",
-        "scss",
-        "shellscript",
-        "swift",
-        "tex",
-        "text",
-        "toml",
-        "typescript",
-        "typescriptreact",
-        "viml",
-        "xml",
-        "yaml"
-    ],
-    "cSpell.language": "en",
-    "code-runner.enableAppInsights": false,
-    "editor.fontFamily": "Fira Code",
-    "editor.fontLigatures": true,
-    "editor.fontSize": 14,
-    "editor.minimap.enabled": false,
-    "extensions.showRecommendationsOnlyOnDemand": true,
-    "githubPullRequests.telemetry.enabled": false,
-    "gitlens.advanced.messages": {
-        "suppressShowKeyBindingsNotice": true
-    },
-    "gitlens.advanced.telemetry.enabled": false,
-    "latex-workshop.message.update.show": false,
-    "python.formatting.provider": "black",
-    "python.jediMemoryLimit": -1,
-    "telemetry.enableCrashReporter": false,
-    "telemetry.enableTelemetry": false,
-    "terminal.external.linuxExec": "konsole",
-    "terminal.integrated.fontFamily": "Fira Code",
-    "terminal.integrated.fontSize": 14,
-    "terminal.integrated.scrollback": 100000,
-    "window.zoomLevel": 0,
-    "workbench.startupEditor": "newUntitledFile",
-    "files.autoSave": "afterDelay",
-    "java.saveActions.organizeImports": true,
-    "java.errors.incompleteClasspath.severity": "ignore",
-    "files.eol": "\n",
-    "breadcrumbs.enabled": true,
-    "go.autocompleteUnimportedPackages": true,
-    "go.lintTool":"golangci-lint",
-    "go.lintFlags": [
-        "--fast"
-    ],
     "[python]": {
         "editor.codeActionsOnSave": {
             "source.organizeImports": true
         }
     },
-    "java.home": "/usr/lib/jvm/default",
-    "python.linting.flake8Enabled": true,
-    "python.linting.pylintEnabled": false,
-    "workbench.colorTheme": "One Dark Pro",
-    "search.location": "panel",
-    "zenMode.centerLayout": false,
-    "java.configuration.checkProjectSettingsExclusions": false,
-    "window.menuBarVisibility": "visible",
+    "better-comments.tags": [
+        {
+            "backgroundColor": "transparent",
+            "color": "#E06C75",
+            "strikethrough": false,
+            "tag": "!"
+        },
+        {
+            "backgroundColor": "transparent",
+            "color": "#61AFEF",
+            "strikethrough": false,
+            "tag": "?"
+        },
+        {
+            "backgroundColor": "transparent",
+            "color": "#474747",
+            "strikethrough": true,
+            "tag": "//"
+        },
+        {
+            "backgroundColor": "transparent",
+            "color": "#E5C07B",
+            "strikethrough": false,
+            "tag": "todo"
+        },
+        {
+            "backgroundColor": "transparent",
+            "color": "#98C379",
+            "strikethrough": false,
+            "tag": "*"
+        }
+    ],
+    "breadcrumbs.enabled": true,
+    "cSpell.diagnosticLevel": "Hint",
+    "cSpell.enableFiletypes": [
+        "ansible",
+        "gradle",
+        "lisp",
+        "shellscript",
+        "tex",
+        "toml",
+        "vue",
+        "vue-html",
+        "vue-postcss"
+    ],
+    "cSpell.language": "en",
     "code-runner.clearPreviousOutput": true,
-	"code-runner.executorMap": {
+    "code-runner.enableAppInsights": false,
+    "code-runner.executorMap": {
         "c": "mkdir -p $workspaceRoot/build && clang $fileName -o $workspaceRoot/build/$fileNameWithoutExt && $workspaceRoot/build/$fileNameWithoutExt",
         "cpp": "mkdir -p $workspaceRoot/build && clang++ $fileName -o $workspaceRoot/build/$fileNameWithoutExt && $workspaceRoot/build/$fileNameWithoutExt",
         "objective-c": "mkdir -p $workspaceRoot/build && gcc -framework Cocoa $fileName -o $workspaceRoot/build/$fileNameWithoutExt && $workspaceRoot/build/$fileNameWithoutExt",
-		"rust": "cd $dir && cargo run $fileName",
+        "rust": "cd $dir && cargo run $fileName"
     },
-    "workbench.iconTheme": "vscode-icons",
-    "git.autofetch": true,
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    "editor.minimap.enabled": false,
     "explorer.confirmDragAndDrop": false,
-    "rust.clippy_preference": "on",
-    "omnisharp.enableEditorConfigSupport": true,
     "extensions.autoUpdate": false,
-    "vsicons.dontShowNewVersionMessage": true,
-    "java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
-    "java.format.settings.profile": "GoogleStyle",
-    "workbench.activityBar.visible": false,
+    "extensions.showRecommendationsOnlyOnDemand": true,
+    "files.associations": {
+        "*.el": "lisp"
+    },
+    "files.autoSave": "afterDelay",
+    "files.eol": "\n",
+    "git.autofetch": true,
     "git.defaultCloneDirectory": "",
+    "git.enableCommitSigning": true,
+    "git.enableStatusBarSync": false,
+    "git.suggestSmartCommit": false,
+    "git.untrackedChanges": "separate",
+    "githubPullRequests.telemetry.enabled": false,
+    "gitlens.advanced.messages": {
+        "suppressShowKeyBindingsNotice": true
+    },
+    "gitlens.advanced.telemetry.enabled": false,
+    "go.autocompleteUnimportedPackages": true,
+    "go.lintFlags": [
+        "--fast"
+    ],
+    "go.lintTool": "golangci-lint",
+    "java.configuration.checkProjectSettingsExclusions": false,
+    "java.errors.incompleteClasspath.severity": "ignore",
+    "java.format.settings.profile": "GoogleStyle",
+    "java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
+    "java.home": "/usr/lib/jvm/default",
+    "java.saveActions.organizeImports": true,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "latex-workshop.message.update.show": false,
+    "omnisharp.enableEditorConfigSupport": true,
+    "python.formatting.provider": "black",
+    "python.jediMemoryLimit": -1,
+    "python.linting.flake8Enabled": true,
+    "python.linting.pylintEnabled": false,
+    "rust.clippy_preference": "on",
+    "task.slowProviderWarning": [
+        "gradle"
+    ],
+    "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry": false,
+    "terminal.external.linuxExec": "konsole",
+    "terminal.integrated.allowChords": false,
+    "terminal.integrated.fontFamily": "Fira Code",
+    "terminal.integrated.fontSize": 14,
     "terminal.integrated.rendererType": "experimentalWebgl",
+    "terminal.integrated.scrollback": 100000,
+    "todo-tree.filtering.ignoreGitSubmodules": true,
+    "todo-tree.filtering.useBuiltInExcludes": "file and search excludes",
+    "todo-tree.general.tags": [
+        "TODO",
+        "FIXME"
+    ],
+    "todo-tree.highlights.customHighlight": {
+        "FIXME": {},
+        "TODO": {}
+    },
     "todo-tree.highlights.defaultHighlight": {
         "foreground": "green",
         "type": "none"
     },
     "todo-tree.tree.flat": true,
     "todo-tree.tree.grouped": true,
-    "todo-tree.highlights.customHighlight": {
-        "TODO": {},
-        "FIXME": {}
-    },
-    "todo-tree.general.tags": [
-		"TODO",
-		"FIXME"
-    ],
-    "better-comments.tags": [
-		{
-			"tag": "!",
-			"color": "#E06C75",
-			"strikethrough": false,
-			"backgroundColor": "transparent"
-		},
-		{
-			"tag": "?",
-			"color": "#61AFEF",
-			"strikethrough": false,
-			"backgroundColor": "transparent"
-		},
-		{
-			"tag": "//",
-			"color": "#474747",
-			"strikethrough": true,
-			"backgroundColor": "transparent"
-		},
-		{
-			"tag": "todo",
-			"color": "#E5C07B",
-			"strikethrough": false,
-			"backgroundColor": "transparent"
-		},
-		{
-			"tag": "*",
-			"color": "#98C379",
-			"strikethrough": false,
-			"backgroundColor": "transparent"
-		}
-    ],
+    "todo-tree.tree.showScanModeButton": false,
     "typescript.updateImportsOnFileMove.enabled": "always",
-    "javascript.updateImportsOnFileMove.enabled": "always",
-    "task.slowProviderWarning": [
-        "gradle"
-    ],
+    "vsicons.dontShowNewVersionMessage": true,
+    "window.menuBarVisibility": "visible",
+    "window.zoomLevel": 0,
+    "workbench.activityBar.visible": false,
+    "workbench.colorTheme": "One Dark Pro",
+    "workbench.iconTheme": "vscode-icons",
+    "workbench.startupEditor": "newUntitledFile",
+    "wpilib.selectDefaultSimulateExtension": true,
+    "zenMode.centerLayout": false,
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[vue]": {
+        "editor.defaultFormatter": "octref.vetur"
+    }
 }

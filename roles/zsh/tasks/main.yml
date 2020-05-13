@@ -4,7 +4,7 @@
   register: distribution_file
 
 - name: "Include distribution specific tasks"
-  include_tasks: "{{ ansible_os_family|lower }}.yml"
+  include_tasks: "{{ distribution_file.stat.path }}"
   when: distribution_file.stat.exists
 
 - name: "Change root's shell to zsh"
@@ -45,7 +45,7 @@
 
     - import_tasks: files.yml
 
-    - import_tasks: zplugin.yml
-      when: zsh_zplugin|bool
+    - import_tasks: zinit.yml
+      when: zsh_zinit|bool
   become: yes
   become_user: "{{ username }}"

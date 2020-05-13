@@ -1,0 +1,13 @@
+- name: 'Check for ZPlugin Installation'
+  stat:
+    path: '~/.zinit'
+  register: zinit_dir
+
+- name: 'Install Zinit'
+  git:
+    repo: "https://github.com/zdharma/zinit.git"
+    dest: "{{ user_home }}/.zinit/bin"
+    clone: yes
+  when: not zinit_dir.stat.exists
+  async: 1
+  poll: 0

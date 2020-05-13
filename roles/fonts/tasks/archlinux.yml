@@ -4,20 +4,24 @@
     name:
       - fontconfig
       - ttf-fira-code
+      - ttf-joypixels
+      - ttf-dejavu
+      - noto-fonts
+      - noto-fonts-emoji
       - ttf-liberation
     state: present
 
 - name: "Install ttf-win10 fonts"
   command: "pacman -U --noconfirm --needed {{ role_path }}/files/archlinux/{{ item }}"
   with_items:
-    - "ttf-ms-win10-{{ win10_fonts_ver }}-any.pkg.tar.xz"
-    - "ttf-ms-win10-japanese-{{ win10_fonts_ver }}-any.pkg.tar.xz"
-    - "ttf-ms-win10-korean-{{ win10_fonts_ver }}-any.pkg.tar.xz"
-    - "ttf-ms-win10-other-{{ win10_fonts_ver }}-any.pkg.tar.xz"
-    - "ttf-ms-win10-sea-{{ win10_fonts_ver }}-any.pkg.tar.xz"
-    - "ttf-ms-win10-thai-{{ win10_fonts_ver }}-any.pkg.tar.xz"
-    - "ttf-ms-win10-zh_cn-{{ win10_fonts_ver }}-any.pkg.tar.xz"
-    - "ttf-ms-win10-zh_tw-{{ win10_fonts_ver }}-any.pkg.tar.xz"
+    - "ttf-ms-win10-{{ win10_fonts_ver }}-any.pkg.tar.zst"
+    - "ttf-ms-win10-japanese-{{ win10_fonts_ver }}-any.pkg.tar.zst"
+    - "ttf-ms-win10-korean-{{ win10_fonts_ver }}-any.pkg.tar.zst"
+    - "ttf-ms-win10-other-{{ win10_fonts_ver }}-any.pkg.tar.zst"
+    - "ttf-ms-win10-sea-{{ win10_fonts_ver }}-any.pkg.tar.zst"
+    - "ttf-ms-win10-thai-{{ win10_fonts_ver }}-any.pkg.tar.zst"
+    - "ttf-ms-win10-zh_cn-{{ win10_fonts_ver }}-any.pkg.tar.zst"
+    - "ttf-ms-win10-zh_tw-{{ win10_fonts_ver }}-any.pkg.tar.zst"
   register: win10_result
   changed_when: "'skipping' not in win10_result.stderr"
   become: yes

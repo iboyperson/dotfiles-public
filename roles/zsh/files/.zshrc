@@ -17,8 +17,8 @@ _run_compinit() {
     fi
 }
 
-# Zplugin
-source ~/.zplugin-init.zsh
+# Bootstrap Zinit
+source ~/.zinit-bootstrap.zsh
 
 # load zsh config files
 setopt extendedglob
@@ -29,12 +29,3 @@ do
 	source $file
 done
 
-# fzf completions and key-bindings
-source "/usr/share/fzf/completion.zsh"
-source "/usr/share/fzf/key-bindings.zsh"
-
-travis() {
-    unfunction "$0"
-    source "/usr/lib/ruby/gems/$(ruby --version | grep -Po "(?<=ruby )(...)").0/gems/travis-$(travis --version)/assets/travis.sh"
-    $0 "$@"
-}

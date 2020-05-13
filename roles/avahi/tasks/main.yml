@@ -4,7 +4,7 @@
   register: distribution_file
 
 - name: "Include distribution specific tasks"
-  include_tasks: "{{ ansible_os_family|lower }}.yml"
+  include_tasks: "{{ distribution_file.stat.path }}"
   when: distribution_file.stat.exists
 
 - name: Sync nsswitch.conf file

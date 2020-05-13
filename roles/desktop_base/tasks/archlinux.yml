@@ -42,6 +42,12 @@
   pacman:
     name:
       - arc-gtk-theme
-      - papirus-icon-theme
       - gnome-icon-theme
+    state: present
+
+- name: "Ensure base themes from AUR are installed"
+  become: yes
+  aur:
+    name:
+      - papirus-icon-theme-git
     state: present

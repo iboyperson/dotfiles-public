@@ -35,7 +35,7 @@ options:
         description:
             - The helper to use, 'auto' uses the first known helper found and makepkg as a fallback.
         default: auto
-        choices: [ auto, yay, aurman, pacaur, trizen, pikaur, makepkg ]
+        choices: [ auto, yay, pacaur, trizen, pikaur, aurman, makepkg ]
 
     skip_installed:
         description:
@@ -45,9 +45,16 @@ options:
 
     skip_pgp_check:
         description:
-            - Skip verification of PGP signatures.
-              This is useful when installing packages on a host without GnuPG (properly) configured.
-              Only valid with makepkg.
+            - Only valid with makepkg.
+              Skip PGP signatures verification of source file.
+              This is useful when installing packages without GnuPG (properly) configured.
+        type: bool
+        default: no
+
+    ignore_arch:
+        description:
+            - Only valid with makepkg.
+              Ignore a missing or incomplete arch field, useful when the PKGBUILD does not have the arch=('yourarch') field.
         type: bool
         default: no
 
@@ -78,14 +85,14 @@ def_lang = ['env', 'LC_ALL=C']
 
 use_cmd = {
     'yay': ['yay', '-S', '--noconfirm', '--needed', '--cleanafter'],
-    'aurman': ['aurman', '-S', '--noconfirm', '--noedit', '--needed', '--skip_news', '--pgp_fetch', '--skip_new_locations'],
     'pacaur': ['pacaur', '-S', '--noconfirm', '--noedit', '--needed'],
     'trizen': ['trizen', '-S', '--noconfirm', '--noedit', '--needed'],
     'pikaur': ['pikaur', '-S', '--noconfirm', '--noedit', '--needed'],
+    'aurman': ['aurman', '-S', '--noconfirm', '--noedit', '--needed', '--skip_news', '--pgp_fetch', '--skip_new_locations'],
     'makepkg': ['makepkg', '--syncdeps', '--install', '--noconfirm', '--needed']
 }
 
-has_aur_option = ['yay', 'aurman', 'pacaur', 'trizen']
+has_aur_option = ['yay', 'pacaur', 'trizen', 'aurman']
 
 
 def package_installed(module, package):
@@ -101,11 +108,17 @@ def check_packages(module, packages):
     Inform the user what would change if the module were run
     """
     would_be_changed = []
+    diff = {
+        'before': '',
+        'after': '',
+    }
 
     for package in packages:
         installed = package_installed(module, package)
         if not installed:
             would_be_changed.append(package)
+            if module._diff:
+                diff['after'] += package + "\n"
 
     if would_be_changed:
         status = True
@@ -119,7 +132,7 @@ def check_packages(module, packages):
             message = 'all packages are already installed'
         else:
             message = 'package is already installed'
-    module.exit_json(changed=status, msg=message)
+    module.exit_json(changed=status, msg=message, diff=diff)
 
 
 def install_with_makepkg(module, package):
@@ -133,20 +146,15 @@ def install_with_makepkg(module, package):
         return (1, '', 'package {} not found'.format(package))
     result = result['results'][0]
     f = open_url('https://aur.archlinux.org/{}'.format(result['URLPath']))
-    current_path = os.getcwd()
     with tempfile.TemporaryDirectory() as tmpdir:
-        os.chdir(tmpdir)
-        tar_file = '{}.tar.gz'.format(result['Name'])
-        with open(tar_file, 'wb') as out:
-            out.write(f.read())
-        tar = tarfile.open(tar_file)
-        tar.extractall()
+        tar = tarfile.open(mode='r|*', fileobj=f)
+        tar.extractall(tmpdir)
         tar.close()
-        os.chdir(format(result['Name']))
         if module.params['skip_pgp_check']:
             use_cmd['makepkg'].append('--skippgpcheck')
-        rc, out, err = module.run_command(use_cmd['makepkg'], check_rc=True)
-        os.chdir(current_path)
+        if module.params['ignore_arch']:
+            use_cmd['makepkg'].append('--ignorearch')
+        rc, out, err = module.run_command(use_cmd['makepkg'], cwd=os.path.join(tmpdir, result['Name']), check_rc=True)
     return (rc, out, err)
 
 
@@ -200,6 +208,10 @@ def main():
         argument_spec={
             'name': {
                 'type': 'list',
+            },
+            'ignore_arch': {
+                'default': False,
+                'type': 'bool',
             },
             'upgrade': {
                 'default': False,

@@ -33,22 +33,3 @@
   args:
     creates: /etc/pacman.conf.bak
   when: pacman_conf.stat.exists and not pacman_conf_bak.stat.exists and pacman_conf.stat.checksum != pacman_conf_local.stat.checksum
-
-# INFO: Disable hooks backup for now as the directory does not appear to exist on a new arch system
-# - name: Get checksum for local pacman.d/hooks
-#   stat: path="{{ role_path }}/files/hooks"
-#   register: pacman_hooks_local
-
-# - name: Check if pacman.d/hooks already exists
-#   stat: path="/etc/pacman.d/hooks"
-#   register: pacman_hooks
-
-# - name: Check if pacman.d/hooks.bak already exists
-#   stat: path="/etc/pacman.d/hooks.bak"
-#   register: pacman_hooks_bak
-
-# - name: Backup pacman.d/hooks if it exists
-#   command: mv /etc/pacman.d/hooks /etc/pacman.d/hooks.bak
-#   args:
-#     creates: /etc/pacman.d/hooks.bak
-#   when: pacman_hooks.stat.exists and not pacman_hooks_bak.stat.exists and pacman_hooks.stat.checksum != pacman_hooks_local.stat.checksum
