@@ -15,4 +15,4 @@
   become_user: "{{ username }}"
   aur:
     name: pyenv
-    skip_installed: true
+    state: present

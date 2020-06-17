@@ -5,6 +5,7 @@
 from ansible.module_utils.basic import *
 from ansible.module_utils.urls import open_url
 import json
+import shlex
 import tarfile
 import os
 import os.path
@@ -25,29 +26,36 @@ options:
         description:
             - Name or list of names of the package(s) to install or upgrade.
 
+    state:
+        description:
+            - Desired state of the package.
+        default: present
+        choices: [ present, latest ]
+
     upgrade:
         description:
             - Whether or not to upgrade whole system.
-        type: bool
         default: no
+        type: bool
 
     use:
         description:
-            - The helper to use, 'auto' uses the first known helper found and makepkg as a fallback.
+            - The tool to use, 'auto' uses the first known helper found and makepkg as a fallback.
         default: auto
         choices: [ auto, yay, pacaur, trizen, pikaur, aurman, makepkg ]
 
-    skip_installed:
+    extra_args:
         description:
-            - Skip operations if the package is present.
-        type: bool
-        default: no
+            - Arguments to pass to the tool.
+              Requires that the 'use' option be set to something other than 'auto'.
+        type: str
 
     skip_pgp_check:
         description:
             - Only valid with makepkg.
               Skip PGP signatures verification of source file.
               This is useful when installing packages without GnuPG (properly) configured.
+              Cannot be used unless use is set to 'makepkg'.
         type: bool
         default: no
 
@@ -55,12 +63,15 @@ options:
         description:
             - Only valid with makepkg.
               Ignore a missing or incomplete arch field, useful when the PKGBUILD does not have the arch=('yourarch') field.
+              Cannot be used unless use is set to 'makepkg'.
         type: bool
         default: no
 
     aur_only:
         description:
-            - Limit operation to the AUR. Compatible with yay, aurman, pacaur and trizen.
+            - Limit helper operation to the AUR.
+        type: bool
+        default: no
 notes:
   - When used with a `loop:` each package will be processed individually,
     it is much more efficient to pass the list directly to the `name` option.
@@ -75,11 +86,10 @@ helper:
 
 EXAMPLES = '''
 - name: Install trizen using makepkg, skip if trizen is already installed
-  aur: name=trizen use=makepkg skip_installed=true
+  aur: name=trizen use=makepkg state=present
   become: yes
   become_user: aur_builder
 '''
-
 
 def_lang = ['env', 'LC_ALL=C']
 
@@ -92,7 +102,7 @@ use_cmd = {
     'makepkg': ['makepkg', '--syncdeps', '--install', '--noconfirm', '--needed']
 }
 
-has_aur_option = ['yay', 'pacaur', 'trizen', 'aurman']
+has_aur_option = ['yay', 'pacaur', 'trizen', 'pikaur', 'aurman']
 
 
 def package_installed(module, package):
@@ -135,7 +145,23 @@ def check_packages(module, packages):
     module.exit_json(changed=status, msg=message, diff=diff)
 
 
-def install_with_makepkg(module, package):
+def build_command_prefix(use, extra_args, skip_pgp_check=False, ignore_arch=False, aur_only=False):
+    """
+    Create the prefix of a command that can be used by the install and upgrade functions.
+    """
+    command = def_lang + use_cmd[use]
+    if skip_pgp_check:
+        command.append('--skippgpcheck')
+    if ignore_arch:
+        command.append('--ignorearch')
+    if aur_only and use in has_aur_option:
+        command.append('--aur')
+    if extra_args:
+        command += shlex.split(extra_args)
+    return command
+
+
+def install_with_makepkg(module, package, extra_args, skip_pgp_check, ignore_arch):
     """
     Install the specified package with makepkg
     """
@@ -150,21 +176,21 @@ def install_with_makepkg(module, package):
         tar = tarfile.open(mode='r|*', fileobj=f)
         tar.extractall(tmpdir)
         tar.close()
-        if module.params['skip_pgp_check']:
-            use_cmd['makepkg'].append('--skippgpcheck')
-        if module.params['ignore_arch']:
-            use_cmd['makepkg'].append('--ignorearch')
-        rc, out, err = module.run_command(use_cmd['makepkg'], cwd=os.path.join(tmpdir, result['Name']), check_rc=True)
+        command = build_command_prefix('makepkg', extra_args, skip_pgp_check=skip_pgp_check, ignore_arch=ignore_arch)
+        rc, out, err = module.run_command(command, cwd=os.path.join(tmpdir, result['Name']), check_rc=True)
     return (rc, out, err)
 
 
-def upgrade(module, use, aur_only):
+def upgrade(module, use, extra_args, aur_only):
     """
     Upgrade the whole system
     """
     assert use in use_cmd
 
-    rc, out, err = module.run_command(def_lang + use_cmd[use] + ['--aur' if (aur_only and use in has_aur_option) else None] + ['-u'], check_rc=True)
+    command = build_command_prefix(use, extra_args, aur_only=aur_only)
+    command.append('-u')
+
+    rc, out, err = module.run_command(command, check_rc=True)
 
     module.exit_json(
         changed=not (out == '' or 'nothing to do' in out or 'No AUR updates found' in out),
@@ -173,7 +199,7 @@ def upgrade(module, use, aur_only):
     )
 
 
-def install_packages(module, packages, use, skip_installed, aur_only):
+def install_packages(module, packages, use, extra_args, state, skip_pgp_check, ignore_arch, aur_only):
     """
     Install the specified packages
     """
@@ -182,14 +208,16 @@ def install_packages(module, packages, use, skip_installed, aur_only):
     changed_iter = False
 
     for package in packages:
-        if skip_installed:
+        if state == 'present':
             if package_installed(module, package):
                 rc = 0
                 continue
         if use == 'makepkg':
-            rc, out, err = install_with_makepkg(module, package)
+            rc, out, err = install_with_makepkg(module, package, extra_args, skip_pgp_check, ignore_arch)
         else:
-            rc, out, err = module.run_command(def_lang + use_cmd[use] + ['--aur' if (aur_only and use in has_aur_option) else None] + [package], check_rc=True)
+            command = build_command_prefix(use, extra_args, aur_only=aur_only)
+            command.append(package)
+            rc, out, err = module.run_command(command, check_rc=True)
 
         changed_iter = changed_iter or not (out == '' or '-- skipping' in out or 'nothing to do' in out)
 
@@ -203,29 +231,32 @@ def install_packages(module, packages, use, skip_installed, aur_only):
     )
 
 
-def main():
+def make_module():
     module = AnsibleModule(
         argument_spec={
             'name': {
                 'type': 'list',
             },
-            'ignore_arch': {
-                'default': False,
-                'type': 'bool',
+            'state': {
+                'default': 'present',
+                'choices': ['present', 'latest'],
             },
             'upgrade': {
-                'default': False,
                 'type': 'bool',
             },
             'use': {
                 'default': 'auto',
                 'choices': ['auto'] + list(use_cmd.keys()),
             },
-            'skip_installed': {
+            'extra_args': {
+                'default': None,
+                'type': 'str',
+            },
+            'skip_pgp_check': {
                 'default': False,
                 'type': 'bool',
             },
-            'skip_pgp_check': {
+            'ignore_arch': {
                 'default': False,
                 'type': 'bool',
             },
@@ -234,32 +265,48 @@ def main():
                 'type': 'bool',
             },
         },
+        mutually_exclusive=[['name', 'upgrade']],
         required_one_of=[['name', 'upgrade']],
         supports_check_mode=True
     )
 
     params = module.params
 
-    if module.check_mode:
-        check_packages(module, params['name'])
+    use = params['use']
 
-    if params['use'] == 'auto':
+    if use == 'auto':
+        if params['extra_args'] is not None:
+            module.fail_json(msg="'extra_args' cannot be used with 'auto', a tool must be specified.")
         use = 'makepkg'
         # auto: select the first helper for which the bin is found
         for k in use_cmd:
             if module.get_bin_path(k):
                 use = k
                 break
-    else:
-        use = params['use']
 
-    if params['upgrade'] and (params['name'] or params['skip_installed'] or use == 'makepkg'):
-        module.fail_json(msg="Upgrade cannot be used with this option.")
+    if use != 'makepkg' and (params['skip_pgp_check'] or params['ignore_arch']):
+        module.fail_json(msg="This option is only available with 'makepkg'.")
+
+    if params.get('upgrade', False) and use == 'makepkg':
+        module.fail_json(msg="The 'upgrade' action cannot be used with 'makepkg'.")
+
+    return module, use
+
+
+def apply_module(module, use):
+    params = module.params
+
+    if module.check_mode:
+        check_packages(module, params['name'])
+    elif params.get('upgrade', False):
+        upgrade(module, use, params['extra_args'], params['aur_only'])
     else:
-        if params['upgrade']:
-            upgrade(module, use, params['aur_only'])
-        else:
-            install_packages(module, params['name'], use, params['skip_installed'], params['aur_only'])
+        install_packages(module, params['name'], use, params['extra_args'], params['state'], params['skip_pgp_check'], params['ignore_arch'], params['aur_only'])
+
+
+def main():
+    module, use = make_module()
+    apply_module(module, use)
 
 
 if __name__ == '__main__':

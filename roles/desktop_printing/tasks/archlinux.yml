@@ -38,7 +38,7 @@
       - epson-inkjet-printer-escpr2
       - hplip-plugin
       - hpoj
-    skip_installed: true
+    state: present
 
 - name: "Include systemd specific tasks"
   include_tasks: systemd.yml

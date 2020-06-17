@@ -14,6 +14,9 @@
 [commit]
 	gpgsign = true
 
+[pull]
+	rebase = false
+
 [color]
 	branch = auto
 	diff = auto

@@ -10,6 +10,6 @@
   aur:
     use: makepkg
     name: yay
-    skip_installed: true
+    state: present
   become: yes
   become_user: "{{ username }}"

@@ -3,4 +3,4 @@
   become_user: "{{ username }}"
   aur:
     name: visual-studio-code-bin
-    skip_installed: true
+    state: present

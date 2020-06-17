@@ -14,4 +14,4 @@
       - etcher-bin
       - google-chrome
       - spotify
-    skip_installed: true
+    state: present

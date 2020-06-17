@@ -4,4 +4,4 @@
   aur:
     name:
       - ulauncher
-    skip_installed: true
+    state: present
